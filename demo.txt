@@ -1,0 +1,15 @@
+''
+# Import the module
+Import-Module .\PSKit.psm1 -Force
+
+# Check out the csv
+Get-Content .\data\places.csv
+
+# Import the csv
+$data = Import-Csv .\data\places.csv
+
+# Convert it to a hash table, with a key from the `slug` property
+ConvertTo-HashTableWithKey -InputObject $data -key slug
+
+# Convert it to a hash table, with a key from the `slug` property and return it as JSON
+ConvertTo-HashTableWithKey -InputObject $data -key slug -AsJSON
