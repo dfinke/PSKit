@@ -1,4 +1,3 @@
-''
 # Import the module
 Import-Module .\PSKit.psm1 -Force
 
