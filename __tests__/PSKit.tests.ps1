@@ -47,8 +47,6 @@ genecov,Genecov Sculpture,32.299076986939205,-95.31571447849274
 
         $actual.dcl | Should Not Be $null
 
-        # dcl,Downtown Coffee Lounge,32.35066,-95.30181
-
         $actual.dcl.slug | Should BeExactly 'dcl'
         $actual.dcl.place | Should BeExactly 'Downtown Coffee Lounge'
         $actual.dcl.latitude | Should Be 32.35066
