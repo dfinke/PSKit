@@ -1,4 +1,4 @@
-function ConvertTo-HashTableWithKey {
+function New-LookupTable {
     param(
         $InputObject,
         $key,
