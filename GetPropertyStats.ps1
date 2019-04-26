@@ -15,10 +15,10 @@ function Get-DataTypePrecedence {
         'bool'     = 5
         'null'     = 6
     }
-    
+
     ($(foreach ($item in $list) {
-        "$($precedence.$item)"+$item
-    }) | Sort-Object | Select-Object -First 1) -replace "^\d",""
+                "$($precedence.$item)" + $item
+            }) | Sort-Object | Select-Object -First 1) -replace "^\d", ""
 }
 
 function Get-PropertyStats {
@@ -27,28 +27,29 @@ function Get-PropertyStats {
         $NumberOfRowsToCheck = 0
     )
 
-    $names=$InputObject[0].psobject.properties.name
-    
+    $names = $InputObject[0].psobject.properties.name
+
     foreach ($name in $names) {
         $h = [Ordered]@{}
         $h.ColumnName = $name
 
         $dt = for ($idx = 0; $idx -lt $NumberOfRowsToCheck + 1; $idx++) {
-            if([string]::IsNullOrEmpty($InputObject[$idx].$name)) {
+            if ([string]::IsNullOrEmpty($InputObject[$idx].$name)) {
                 "null"
-            } else {
+            }
+            else {
                 (Invoke-AllTests  $InputObject[$idx].$name -OnlyPassing -FirstOne).datatype
             }
         }
-            
+
         $DataType = Get-DataTypePrecedence @($dt)
-            
-        $h.DataType   = $DataType
-        $h.HasNulls   = if ($DataType) {@($InputObject.$name -match '^$').count -gt 0} else {}
-        $h.Min        = if ($DataType -match 'string|^$') {} else {($InputObject.$name|Measure-Object -Minimum).Minimum}
-        $h.Max        = if ($DataType -match 'string|^$') {} else {($InputObject.$name|Measure-Object -Maximum).Maximum}
-        $h.Avg        = if ($DataType -match 'int|double') {($InputObject.$name|Measure-Object -Average).Average} else {}
-        $h.Sum        = if ($DataType -match 'int|double') {($InputObject.$name|Measure-Object -Sum).Sum} else {}
+
+        $h.DataType = $DataType
+        $h.HasNulls = if ($DataType) {@($InputObject.$name -match '^$').count -gt 0} else {}
+        $h.Min = if ($DataType -match 'string|^$') {} else {($InputObject.$name|Measure-Object -Minimum).Minimum}
+        $h.Max = if ($DataType -match 'string|^$') {} else {($InputObject.$name|Measure-Object -Maximum).Maximum}
+        $h.Avg = if ($DataType -match 'int|double') {($InputObject.$name|Measure-Object -Average).Average} else {}
+        $h.Sum = if ($DataType -match 'int|double') {($InputObject.$name|Measure-Object -Sum).Sum} else {}
 
         [PSCustomObject]$h
     }
