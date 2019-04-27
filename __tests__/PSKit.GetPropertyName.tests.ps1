@@ -40,4 +40,20 @@ Sandy Allen,2019,Oliver House,108,3.48
         $actual[3] | Should BeExactly 'Room'
         $actual[4] | Should BeExactly 'GPA'
     }
+
+    It "Should find one name" {
+        $actual = $data | Get-PropertyName '*e'
+
+        $actual.Count | Should Be 1
+        $actual | Should BeExactly 'Name'
+    }
+
+    It "Should find these wildcard names" {
+        $actual = $data | Get-PropertyName '*m*'
+
+        $actual.Count | Should Be 3
+        $actual[0] | Should BeExactly 'Name'
+        $actual[1] | Should BeExactly 'Dorm'
+        $actual[2] | Should BeExactly 'Room'
+    }
 }
