@@ -1,0 +1,30 @@
+[
+    {
+        "Name":  "Sally Whittaker",
+        "Class":  2018,
+        "Dorm":  "McCarren House",
+        "Room":  312,
+        "GPA":  3.75
+    },
+    {
+        "Name":  "Belinda Jameson",
+        "Class":  2017,
+        "Dorm":  "Cushing House",
+        "Room":  148,
+        "GPA":  3.52
+    },
+    {
+        "Name":  "Jeff Smith",
+        "Class":  2018,
+        "Dorm":  "Prescott House",
+        "Room":  "17-D",
+        "GPA":  3.2
+    },
+    {
+        "Name":  "Sandy Allen",
+        "Class":  2019,
+        "Dorm":  "Oliver House",
+        "Room":  108,
+        "GPA":  3.48
+    }
+]
