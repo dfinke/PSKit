@@ -12,12 +12,27 @@ Sandy Allen,2019,Oliver House,108,3.48
     }
 
     It "Should have five properties" {
-        $actual = Get-PropertyName $data
+        $actual = Get-PropertyName -InputObject $data
+        $actual.Count | Should Be 5
+    }
+
+    It "Should have five properties when piped" {
+        $actual = $data| Get-PropertyName
         $actual.Count | Should Be 5
     }
 
     It "Should have these names" {
-        $actual = Get-PropertyName $data
+        $actual = Get-PropertyName -InputObject $data
+
+        $actual[0] | Should BeExactly 'Name'
+        $actual[1] | Should BeExactly 'Class'
+        $actual[2] | Should BeExactly 'Dorm'
+        $actual[3] | Should BeExactly 'Room'
+        $actual[4] | Should BeExactly 'GPA'
+    }
+
+    It "Should have these names when piped" {
+        $actual = $data | Get-PropertyName
 
         $actual[0] | Should BeExactly 'Name'
         $actual[1] | Should BeExactly 'Class'
