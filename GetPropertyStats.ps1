@@ -21,36 +21,62 @@ function Get-DataTypePrecedence {
             }) | Sort-Object | Select-Object -First 1) -replace "^\d", ""
 }
 
-function Get-PropertyStats {
+function GenerateStats {
     param(
-        $InputObject,
-        $NumberOfRowsToCheck = 0
+        [Parameter(Mandatory)]
+        $TargetData
     )
 
-    $names = $InputObject[0].psobject.properties.name
+    $names = $TargetData[0].psobject.properties.name
 
     foreach ($name in $names) {
         $h = [Ordered]@{}
         $h.ColumnName = $name
 
         $dt = for ($idx = 0; $idx -lt $NumberOfRowsToCheck + 1; $idx++) {
-            if ([string]::IsNullOrEmpty($InputObject[$idx].$name)) {
+            if ([string]::IsNullOrEmpty($TargetData[$idx].$name)) {
                 "null"
             }
             else {
-                (Invoke-AllTests  $InputObject[$idx].$name -OnlyPassing -FirstOne).datatype
+                (Invoke-AllTests  $TargetData[$idx].$name -OnlyPassing -FirstOne).datatype
             }
         }
 
         $DataType = Get-DataTypePrecedence @($dt)
 
         $h.DataType = $DataType
-        $h.HasNulls = if ($DataType) {@($InputObject.$name -match '^$').count -gt 0} else {}
-        $h.Min = if ($DataType -match 'string|^$') {} else {($InputObject.$name|Measure-Object -Minimum).Minimum}
-        $h.Max = if ($DataType -match 'string|^$') {} else {($InputObject.$name|Measure-Object -Maximum).Maximum}
-        $h.Avg = if ($DataType -match 'int|double') {($InputObject.$name|Measure-Object -Average).Average} else {}
-        $h.Sum = if ($DataType -match 'int|double') {($InputObject.$name|Measure-Object -Sum).Sum} else {}
+        $h.HasNulls = if ($DataType) {@($TargetData.$name -match '^$').count -gt 0} else {}
+        $h.Min = if ($DataType -match 'string|^$') {} else {($TargetData.$name|Measure-Object -Minimum).Minimum}
+        $h.Max = if ($DataType -match 'string|^$') {} else {($TargetData.$name|Measure-Object -Maximum).Maximum}
+        $h.Avg = if ($DataType -match 'int|double') {($TargetData.$name|Measure-Object -Average).Average} else {}
+        $h.Sum = if ($DataType -match 'int|double') {($TargetData.$name|Measure-Object -Sum).Sum} else {}
 
         [PSCustomObject]$h
+    }
+}
+
+function Get-PropertyStats {
+    param(
+        [Parameter(ValueFromPipeline)]
+        $Data,
+        $InputObject,
+        $NumberOfRowsToCheck = 0
+    )
+
+    Begin {
+        if (!$InputObject) { $list = @() }
+    }
+
+    Process {
+        if (!$InputObject) { $list += $Data }
+    }
+
+    End {
+        if (!$InputObject) {
+            GenerateStats $Data
+        }
+        else {
+            GenerateStats $InputObject
+        }
     }
 }

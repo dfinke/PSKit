@@ -1,6 +1,6 @@
 Import-Module $PSScriptRoot\..\PSKit.psd1 -Force
 
-Describe "PSKit tests - Get-PropertyStats" {
+Describe "PSKit tests - Get-PropertyStat-InputObject s" {
     BeforeAll {
         $script:data = ConvertFrom-Csv @"
 Name,Class,Dorm,Room,GPA
@@ -26,7 +26,7 @@ John,5
             Age        int         False 5   15  10  30
         #>
 
-        $actual = Get-PropertyStats $data
+        $actual = Get-PropertyStats -InputObject $data
         $actual.Count | Should Be 2
 
         $actual[0].ColumnName | Should BeExactly 'Name'
