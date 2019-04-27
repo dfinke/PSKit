@@ -11,7 +11,35 @@ Sandy Allen,2019,Oliver House,108,3.48
 "@
     }
 
-    It "Should" {
+    It "Should calculate property stats when piped" {
+        $data = ConvertFrom-Csv @"
+Name,Age
+Jane,10
+John,5
+,15
+"@
+        $actual = $data | Get-PropertyStats
+
+        $actual.Count | Should Be 2
+
+        $actual[0].ColumnName | Should BeExactly 'Name'
+        $actual[0].DataType | Should BeExactly 'string'
+        $actual[0].HasNulls | Should Be $true
+
+        $actual[0].Min | Should Be $null
+        $actual[0].Max | Should Be $null
+        $actual[0].Avg | Should Be $null
+        $actual[0].Sum | Should Be $null
+
+        $actual[1].ColumnName | Should BeExactly 'Age'
+        $actual[1].DataType | Should BeExactly 'int'
+        $actual[1].HasNulls | Should Be $false
+        $actual[1].Min | Should Be 5
+        $actual[1].Max | Should Be 15
+        $actual[1].Avg | Should Be 10
+        $actual[1].Sum | Should Be 30    }
+
+    It "Should calculate property stats" {
         $data = ConvertFrom-Csv @"
 Name,Age
 Jane,10

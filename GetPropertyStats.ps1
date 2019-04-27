@@ -73,7 +73,7 @@ function Get-PropertyStats {
 
     End {
         if (!$InputObject) {
-            GenerateStats $Data
+            GenerateStats $list
         }
         else {
             GenerateStats $InputObject
