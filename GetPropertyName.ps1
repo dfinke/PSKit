@@ -1,5 +1,6 @@
 function Get-PropertyName {
     param(
+        $Name,
         [Parameter(ValueFromPipeline)]
         $Data,
         $InputObject
@@ -15,10 +16,14 @@ function Get-PropertyName {
 
     End {
         if (!$InputObject) {
-            $List[0].psobject.properties.name
+            $names = $List[0].psobject.properties.name
         }
         else {
-            $InputObject[0].psobject.properties.name
+            $names = $InputObject[0].psobject.properties.name
         }
+
+        if (!$name) {$name = "*"}
+
+        $names.Where( {$_ -like $name} )
     }
 }
