@@ -8,7 +8,7 @@ Get-Content .\data\places.csv
 $data = Import-Csv .\data\places.csv
 
 # Convert it to a hash table, with a key from the `slug` property
-ConvertTo-HashTableWithKey -InputObject $data -key slug
+New-LookupTable -InputObject $data -key slug
 
 # Convert it to a hash table, with a key from the `slug` property and return it as JSON
-ConvertTo-HashTableWithKey -InputObject $data -key slug -AsJSON
+New-LookupTable -InputObject $data -key slug -AsJSON
