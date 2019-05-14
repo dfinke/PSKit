@@ -1,3 +1,27 @@
+<#
+    .SYNOPSIS
+    Show only the property names of an object
+
+    .EXAMPLE
+    Get-Service | Get-PropertyName
+
+Name
+RequiredServices
+CanPauseAndContinue
+CanShutdown
+CanStop
+DisplayName
+DependentServices
+MachineName
+ServiceName
+ServicesDependedOn
+ServiceHandle
+Status
+ServiceType
+StartType
+Site
+Container
+#>
 function Get-PropertyName {
     param(
         $Name,
@@ -7,11 +31,11 @@ function Get-PropertyName {
     )
 
     Begin {
-        if (!$InputObject) {$list = @()}
+        if (!$InputObject) { $list = @() }
     }
 
     Process {
-        if (!$InputObject) {$list += $Data}
+        if (!$InputObject) { $list += $Data }
     }
 
     End {
@@ -22,8 +46,8 @@ function Get-PropertyName {
             $names = $InputObject[0].psobject.properties.name
         }
 
-        if (!$name) {$name = "*"}
+        if (!$name) { $name = "*" }
 
-        $names.Where( {$_ -like $name} )
+        $names.Where( { $_ -like $name } )
     }
 }

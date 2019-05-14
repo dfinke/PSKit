@@ -4,3 +4,5 @@
 . $PSScriptRoot/NewLookupTable.ps1
 . $PSScriptRoot/ConvertIntoCSV.ps1
 . $PSScriptRoot/ConvertFromFixedData.ps1
+. $PSScriptRoot/GetDataTypePrecedence.ps1
+. $PSScriptRoot/GenerateStats.ps1
