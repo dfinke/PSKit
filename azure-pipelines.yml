@@ -6,7 +6,8 @@ jobs:
     - powershell: |
         .\DoTests.ps1
       displayName: 'Run Tests on Windows'
- - job: Build_PSCore_Ubuntu1604
+
+  - job: Build_PSCore_Ubuntu1604
 
     pool:
       vmImage: ubuntu-16.04
