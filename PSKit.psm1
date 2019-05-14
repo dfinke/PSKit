@@ -3,3 +3,4 @@
 . $PSScriptRoot/InferData.ps1
 . $PSScriptRoot/NewLookupTable.ps1
 . $PSScriptRoot/ConvertIntoCSV.ps1
+. $PSScriptRoot/ConvertFromFixedData.ps1
