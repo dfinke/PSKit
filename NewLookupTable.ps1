@@ -1,6 +1,11 @@
 <#
+    .SYNOPSIS
+    Turn your data into a lookup table
 
-    .Example
+    .DESCRIPTION
+    Do you have data that with a unique id column? Would you like to be able to load that data into your browser keyed by its unique id so that you can use it as a lookup table? Well then.
+
+    .EXAMPLE
 $data = ConvertFrom-Csv @"
 slug,place,latitude,longitude
 dcl,Downtown Coffee Lounge,32.35066,-95.30181
@@ -22,7 +27,7 @@ function New-LookupTable {
         $key
     )
 
-    $h = [ordered]@{}
+    $h = [ordered]@{ }
     foreach ($record in $InputObject) {
         $theKey = $record.$key
         if (![string]::IsNullOrEmpty($thekey)) {
