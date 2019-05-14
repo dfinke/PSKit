@@ -1,6 +1,7 @@
 $PSVersionTable.PSVersion
 
-$psModules = 'Pester', 'ImportExcel', 'PSStringScanner'
+#$psModules = 'Pester', 'ImportExcel', 'PSStringScanner'
+$psModules = 'Pester'
 
 foreach ($module in $psModules) {
     if ($null -eq (Get-Module -ListAvailable $module)) {
