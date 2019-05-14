@@ -1,15 +1,28 @@
-resources:
-- repo: self
-queue:
-  name: Hosted VS2017
-steps:
-- powershell: .\DoTests.ps1
-  displayName: 'PowerShell Script'
-
-- task: ArchiveFiles@2
-  displayName: 'Archive $(Build.BinariesDirectory)'
-
+jobs:
+  - job: Build_PS_Win2016
+    pool:
+      vmImage: vs2017-win2016
+    steps:
+    - powershell: |
+        .\DoTests.ps1
+      displayName: 'Run Test'
 trigger:
   paths:
     exclude:
     - README.md
+
+# resources:
+# - repo: self
+# queue:
+#   name: Hosted VS2017
+# steps:
+# - powershell: .\DoTests.ps1
+#   displayName: 'PowerShell Script'
+
+# - task: ArchiveFiles@2
+#   displayName: 'Archive $(Build.BinariesDirectory)'
+
+# trigger:
+#   paths:
+#     exclude:
+#     - README.md
