@@ -23,6 +23,21 @@ jobs:
     - script: |
         pwsh -c '.\DoTests.ps1'
       displayName: 'Run Tests on Linux'
+
+  - job: Build_PSCore_MacOS1013
+    pool:
+      vmImage: xcode9-macos10.13
+    steps:
+    - script: |
+        brew update
+        brew tap caskroom/cask
+        brew cask install powershell
+      displayName: 'Install PowerShell Core'
+
+    - script: |
+        pwsh -c '.\DoTests.ps1'
+      displayName: 'Run Tests on macOS'
+
 trigger:
   paths:
     exclude:
