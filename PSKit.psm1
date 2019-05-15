@@ -6,3 +6,4 @@
 . $PSScriptRoot/ConvertFromFixedData.ps1
 . $PSScriptRoot/GetDataTypePrecedence.ps1
 . $PSScriptRoot/GenerateStats.ps1
+. $PSScriptRoot/InvokeTranspileSQL.ps1
