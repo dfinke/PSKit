@@ -49,7 +49,7 @@ Describe "PSKit tests - Invoke-TranspileSQL" {
     }
 }
 
-Describe "PSKit tests - ConvertFrom-TranspileSQL" {
+Describe "PSKit tests - ConvertFrom-TranspileSQL - Select" {
     It "Should translate *" {
         $actual = Invoke-TranspileSQL "Select * FROM X" | ConvertFrom-TranspileSQL
         $actual | Should BeExactly ' | Select-Object -Property *'
@@ -66,6 +66,9 @@ Describe "PSKit tests - ConvertFrom-TranspileSQL" {
 
         $actual | Should BeExactly ' | Select-Object -Property "cash","name"'
     }
+}
+
+Describe "PSKit tests - ConvertFrom-TranspileSQL - Where" {
 
     It "Should translate select and where =" {
         $actual = Invoke-TranspileSQL "Select * FROM X where age = 34" | ConvertFrom-TranspileSQL
@@ -101,6 +104,14 @@ Describe "PSKit tests - ConvertFrom-TranspileSQL" {
         $actual = Invoke-TranspileSQL "Select * FROM X where age <> 'abc'" | ConvertFrom-TranspileSQL
         $actual | Should BeExactly "| Where-Object {`$_.age -ne 'abc'} | Select-Object -Property *"
     }
+
+    It "Should translate select and where like 'abc" {
+        $actual = Invoke-TranspileSQL "Select * FROM X where name like 'chris'" | ConvertFrom-TranspileSQL
+        $actual | Should BeExactly "| Where-Object {`$_.name -like 'chris'} | Select-Object -Property *"
+    }
+}
+
+Describe "PSKit tests - ConvertFrom-TranspileSQL - Multiple items in where clause" {
 
     It "Should translate select and where > and <" {
         $actual = Invoke-TranspileSQL "Select * FROM X where age > 34 and age < 70" | ConvertFrom-TranspileSQL

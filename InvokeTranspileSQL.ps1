@@ -20,6 +20,7 @@ function Add-PSOp {
             "=" { "-eq" }
             ">" { "-gt" }
             "<" { "-lt" }
+            "like" { "-like" }
             default { $_ }
         }
     }
@@ -46,7 +47,7 @@ function Invoke-TranspileSQL {
     $SELECT_KW = "^[Ss][Ee][Ll][Ee][Cc][Tt]\s+"
     $FROM_KW = "[Ff][Rr][Oo][Mm]"
     $WHERE_KW = "[Ww][Hh][Ee][Rr][Ee]"
-    $OPERATIONS = "<>|<=|>=|>|<|="
+    $OPERATIONS = "<>|<=|>=|>|<|=|like"
     $LOGICAL = "[Oo][rR]|[Aa][Nn][Dd]"
     $WHITESPACE = "\s+"
 
@@ -67,7 +68,7 @@ function Invoke-TranspileSQL {
             $h.DataSetName = $ss.ScanUntil("(?=$WHERE_KW)").trim()
             $null = $ss.Skip("$WHERE_KW")
             $rest = $ss.Scan(".*")
-            $h.rest = $rest
+            #$h.rest = $rest
             $ssWhere = New-PSStringScanner $rest
 
             $whereResults = @()
@@ -128,4 +129,12 @@ function ConvertFrom-TranspileSQL {
     $sqlResult += " | Select-Object -Property $($SelectPropertyNames)"
 
     $sqlResult
+}
+
+Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName query -Value {
+    param($q)
+
+    $psquery = Invoke-TranspileSQL $q | ConvertFrom-TranspileSQL
+
+    Invoke-Expression "`$this $psquery"
 }
