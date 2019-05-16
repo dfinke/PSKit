@@ -21,6 +21,7 @@ function Add-PSOp {
             ">" { "-gt" }
             "<" { "-lt" }
             "like" { "-like" }
+            "match" { "-match" }
             default { $_ }
         }
     }
@@ -47,7 +48,7 @@ function Invoke-TranspileSQL {
     $SELECT_KW = "^[Ss][Ee][Ll][Ee][Cc][Tt]\s+"
     $FROM_KW = "[Ff][Rr][Oo][Mm]"
     $WHERE_KW = "[Ww][Hh][Ee][Rr][Ee]"
-    $OPERATIONS = "<>|<=|>=|>|<|=|like"
+    $OPERATIONS = "<>|<=|>=|>|<|=|like|match"
     $LOGICAL = "[Oo][rR]|[Aa][Nn][Dd]"
     $WHITESPACE = "\s+"
 
@@ -67,9 +68,8 @@ function Invoke-TranspileSQL {
         if ($ss.Check($WHERE_KW)) {
             $h.DataSetName = $ss.ScanUntil("(?=$WHERE_KW)").trim()
             $null = $ss.Skip("$WHERE_KW")
-            $rest = $ss.Scan(".*")
-            #$h.rest = $rest
-            $ssWhere = New-PSStringScanner $rest
+
+            $ssWhere = New-PSStringScanner $ss.Scan(".*")
 
             $whereResults = @()
 

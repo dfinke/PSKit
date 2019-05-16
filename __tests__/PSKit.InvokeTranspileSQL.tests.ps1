@@ -109,6 +109,11 @@ Describe "PSKit tests - ConvertFrom-TranspileSQL - Where" {
         $actual = Invoke-TranspileSQL "Select * FROM X where name like 'chris'" | ConvertFrom-TranspileSQL
         $actual | Should BeExactly "| Where-Object {`$_.name -like 'chris'} | Select-Object -Property *"
     }
+
+    It "Should translate select and where match '^chris$" {
+        $actual = Invoke-TranspileSQL "Select * FROM X where name match '^chris$'" | ConvertFrom-TranspileSQL
+        $actual | Should BeExactly "| Where-Object {`$_.name -match '^chris$'} | Select-Object -Property *"
+    }
 }
 
 Describe "PSKit tests - ConvertFrom-TranspileSQL - Multiple items in where clause" {
