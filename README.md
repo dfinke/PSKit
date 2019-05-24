@@ -1,2 +1,3 @@
-# PSKit
-Collection of PowerShell goodies
+# PSKit - PowerShell Kit
+A suite of command-line tools for working with PowerShell arrays.
+
