@@ -1,3 +1,5 @@
+[![Build Status](https://dougfinke.visualstudio.com/PSKit/_apis/build/status/dfinke.PSKit?branchName=master)](https://dougfinke.visualstudio.com/PSKit/_build/latest?definitionId=18&branchName=master)
+
 # PSKit - PowerShell Kit
 A suite of command-line tools for working with PowerShell arrays.
 
@@ -7,6 +9,8 @@ A suite of command-line tools for working with PowerShell arrays.
 # Statistics
 
 # Create a Lookup Table
+
+Have data that with a unique id column? Want to use it as a lookup table? Here you go:
 
 ```powershell
 $data = ConvertFrom-Csv @"
@@ -18,6 +22,8 @@ genecov,Genecov Sculpture,32.299076986939205,-95.31571447849274
 
 New-LookupTable $data slug
 ```
+
+This is similar to `Group-Object` built into `PowerShell`, New-LookupTable also handles missing data
 
 ```
 Name                           Value
