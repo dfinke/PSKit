@@ -1,10 +1,34 @@
 [![Build Status](https://dougfinke.visualstudio.com/PSKit/_apis/build/status/dfinke.PSKit?branchName=master)](https://dougfinke.visualstudio.com/PSKit/_build/latest?definitionId=18&branchName=master)
 
 # PSKit - PowerShell Kit
+
 A suite of command-line tools for working with PowerShell arrays.
 
 
 # SQL Query
+
+The `PSKit` module adds a method `Query()` to lists of objects. You pass a SQL statement to it to work on that set of data. Currently, the SQL syntax is limited to Select the properties you want to see and a Where clause with value type comparison and logical operators. It does not support multiple arrays, joins or aliasing etc.
+
+```powershell
+$data = ConvertFrom-Csv @"
+name,age,cash
+Chris,44,72
+Brian,26,110
+Ryan,18,145
+Joe,34,83
+"@
+```
+## The Query
+
+```powershell
+$actual = $data.query("SELECT cash, name FROM data where name like '*i*' and cash > 100")
+
+cash name
+---- ----
+72   Chris
+110  Brian
+```
+
 
 # Generate summary statistics
 
@@ -48,7 +72,7 @@ genecov,Genecov Sculpture,32.299076986939205,-95.31571447849274
 New-LookupTable $data slug
 ```
 
-This is similar to `Group-Object` built into `PowerShell`, New-LookupTable also handles missing data
+This is similar to `Group-Object` built into `PowerShell`. New-LookupTable also handles missing data
 
 ```
 Name                           Value
@@ -56,4 +80,39 @@ Name                           Value
 dcl                            @{slug=dcl; place=Downtown Coffee Lounge; latitude=32.35066; longitude=-95.30181}
 tyler-museum                   @{slug=tyler-museum; place=Tyler Museum of Art; latitude=32.33396; longitude=-95.28174}
 genecov                        @{slug=genecov; place=Genecov Sculpture; latitude=32.299076986939205; longitude=-95.3157144...
+```
+
+# Convert Fixed Data Based on a Schema
+
+Fixed-width files are particularly challenging to parse. Save yourself some frustration by using a CSV-formatted schema to convert your fixed-width file into PowerShell objects.
+
+## Fixed data
+
+```
+Chris44 72
+Brian26110
+Ryan 18145
+Joe  34 83
+```
+
+## Schema CSV
+
+```
+column,start,length
+name,1,5
+age,6,2
+cash,8,3
+```
+
+The function that parses the data.
+
+```powershell
+ConvertFrom-FixedData -fixedData (Get-Content .\fixedData.txt) -schema (Import-Csv .\fixedDataSchema.csv)
+
+name  age cash
+----  --- ----
+Chris 44    72
+Brian 26   110
+Ryan  18   145
+Joe   34    83
 ```
