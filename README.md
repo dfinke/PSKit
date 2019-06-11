@@ -18,7 +18,58 @@ Ryan,18,145
 Joe,34,83
 "@
 ```
-## The Query
+
+## Scan All The Properties
+
+```powershell
+$data = ConvertFrom-Csv @"
+name,phoneNumber
+Chris,555-999-1111
+Brian,555-123-4567
+Ryan,555-123-8901
+Joe,555-777-1111
+Jane,555-777-2222
+"@
+```
+
+Find phone numbers matching the pattern "ddd–123-dddd".
+
+```powershell
+PS C:\ $data.ScanProperties("\d{3}-123-\d{4}")
+
+name  phoneNumber
+----  -----------
+Brian 555-123-4567
+Ryan  555-123-8901
+```
+
+Find records that end in "an$".
+
+```powershell
+PS C:\ $data.ScanProperties("an$")
+
+name  phoneNumber
+----  -----------
+Brian 555-123-4567
+Ryan  555-123-8901
+```
+
+### Works with built in PowerShell Functions
+
+```powershell
+PS C:\ (Get-Service).ScanProperties("^mssql")
+
+ Status Name           DisplayName                    ServicesDependedOn
+ ------ ----           -----------                    ------------------
+Stopped MSSQLSERVER    SQL Server (MSSQLSERVER)       {}
+Stopped MSSQLSERVER    SQL Server (MSSQLSERVER)       {}
+Stopped SQLSERVERAGENT SQL Server Agent (MSSQLSERVER) {MSSQLSERVER}
+Stopped SQLSERVERAGENT SQL Server Agent (MSSQLSERVER) {MSSQLSERVER}
+```
+
+## Use SQL like query
+
+Supports a simple SQL Select statement syntax.
 
 ```powershell
 $actual = $data.query("SELECT cash, name FROM data where name like '*i*' and cash > 100")
@@ -28,7 +79,6 @@ cash name
 72   Chris
 110  Brian
 ```
-
 
 # Generate summary statistics
 
@@ -68,13 +118,13 @@ dcl,Downtown Coffee Lounge,32.35066,-95.30181
 tyler-museum,Tyler Museum of Art,32.33396,-95.28174
 genecov,Genecov Sculpture,32.299076986939205,-95.31571447849274
 "@
-
-New-LookupTable $data slug
 ```
 
-This is similar to `Group-Object` built into `PowerShell`. New-LookupTable also handles missing data
+This is similar to `Group-Object` built into `PowerShell`. New-LookupTable also handles missing data.
 
-```
+```powershell
+PS C:\ New-LookupTable $data slug
+
 Name                           Value
 ----                           -----
 dcl                            @{slug=dcl; place=Downtown Coffee Lounge; latitude=32.35066; longitude=-95.30181}
