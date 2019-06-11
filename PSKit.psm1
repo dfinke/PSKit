@@ -7,3 +7,4 @@
 . $PSScriptRoot/GetDataTypePrecedence.ps1
 . $PSScriptRoot/GenerateStats.ps1
 . $PSScriptRoot/InvokeTranspileSQL.ps1
+. $PSScriptRoot/ScanProperties.ps1
