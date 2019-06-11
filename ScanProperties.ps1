@@ -20,5 +20,4 @@ Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName Scan
     param($pattern)
 
     Invoke-ScanProperties -InputObject ($this) -Pattern $pattern
-
 }

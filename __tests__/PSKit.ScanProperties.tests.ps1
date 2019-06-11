@@ -8,6 +8,7 @@ Chris,555-999-1111
 Brian,555-123-4567
 Ryan,555-123-8901
 Joe,555-777-1111
+Jane,555-777-2222
 "@
     }
 
@@ -17,7 +18,7 @@ Joe,555-777-1111
     }
 
     It "Data should have 2 records search for text" {
-        $actual = $data.ScanProperties("an")
+        $actual = $data.ScanProperties("an$")
         @($actual).Count | Should Be 2
     }
 }
