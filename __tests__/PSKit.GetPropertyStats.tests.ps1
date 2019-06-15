@@ -30,6 +30,8 @@ John,5
         $actual[0].Max | Should Be $null
         $actual[0].Median | Should Be $null
         $actual[0].Sum | Should Be $null
+        $actual[0].StandardDeviation | Should Be $null
+        $actual[0].Variance | Should Be $null
 
         $actual[1].ColumnName | Should BeExactly 'Age'
         $actual[1].DataType | Should BeExactly 'int'
@@ -38,6 +40,8 @@ John,5
         $actual[1].Max | Should Be 15
         $actual[1].Median | Should Be 10
         $actual[1].Sum | Should Be 30
+        $actual[1].StandardDeviation | Should Be 5
+        $actual[1].Variance | Should Be 25
     }
 
     It "Should calculate property stats" {
@@ -51,6 +55,8 @@ John,5
         $actual[0].Min | Should Be $null
         $actual[0].Max | Should Be $null
         $actual[0].Median | Should Be $null
+        $actual[0].StandardDeviation | Should Be $null
+        $actual[0].Variance | Should Be $null
         $actual[0].Sum | Should Be $null
 
         $actual[1].ColumnName | Should BeExactly 'Age'
@@ -59,6 +65,8 @@ John,5
         $actual[1].Min | Should Be 5
         $actual[1].Max | Should Be 15
         $actual[1].Median | Should Be 10
+        $actual[1].StandardDeviation | Should Be 5
+        $actual[1].Variance | Should Be 25
         $actual[1].Sum | Should Be 30
     }
 }

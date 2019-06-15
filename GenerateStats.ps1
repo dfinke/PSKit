@@ -22,12 +22,17 @@ function GenerateStats {
         $DataType = GetDataTypePrecedence @($dt)
 
         $h.DataType = $DataType
-        $h.HasNulls = if ($DataType) { @($TargetData.$name -match '^$').count -gt 0 } else { }
+        $h.HasNulls = if ($DataType) { @($TargetData.$name -match '^$').count -gt 0 }
 
-        $h.Min = if ($DataType -match 'string|^$') { } else { [MathNet.Numerics.Statistics.Statistics]::Minimum([double[]]$TargetData.$name) }
-        $h.Max = if ($DataType -match 'string|^$') { } else { [MathNet.Numerics.Statistics.Statistics]::Maximum([double[]]$TargetData.$name) }
-        $h.Median = if ($DataType -match 'int|double') { [MathNet.Numerics.Statistics.Statistics]::Median([double[]]$TargetData.$name) } else { }
-        $h.Sum = if ($DataType -match 'int|double') { ($TargetData.$name | Measure-Object -Sum).Sum } else { }
+        $validDataTypes = 'int|double|float|decimal'
+
+        $h.Min = if ($DataType -match $validDataTypes) { [MathNet.Numerics.Statistics.Statistics]::Minimum([double[]]$TargetData.$name) }
+        $h.Max = if ($DataType -match $validDataTypes) { [MathNet.Numerics.Statistics.Statistics]::Maximum([double[]]$TargetData.$name) }
+        $h.Median = if ($DataType -match $validDataTypes) { [MathNet.Numerics.Statistics.Statistics]::Median([double[]]$TargetData.$name) }
+        $h.StandardDeviation = if ($DataType -match $validDataTypes) { [MathNet.Numerics.Statistics.Statistics]::StandardDeviation([double[]]$TargetData.$name) }
+        $h.Variance = if ($DataType -match $validDataTypes) { [MathNet.Numerics.Statistics.Statistics]::Variance([double[]]$TargetData.$name) }
+
+        $h.Sum = if ($DataType -match $validDataTypes) { ($TargetData.$name | Measure-Object -Sum).Sum }
 
         [PSCustomObject]$h
     }
