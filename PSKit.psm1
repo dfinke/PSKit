@@ -1,4 +1,6 @@
-﻿. $PSScriptRoot/GetPropertyName.ps1
+﻿Add-Type -Path "$PSScriptRoot\lib\MathNet.Numerics.dll"
+
+. $PSScriptRoot/GetPropertyName.ps1
 . $PSScriptRoot/GetPropertyStats.ps1
 . $PSScriptRoot/InferData.ps1
 . $PSScriptRoot/NewLookupTable.ps1
