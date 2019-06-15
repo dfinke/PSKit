@@ -84,6 +84,7 @@ cash name
 
 `Get-PropertyStats` will calculate different statistics based on the type of each column.
 
+**Note**: There are two other ways to get the same results `$data | Get-PropertyStats` or `$data.stats()`
 
 ```powershell
 $data = ConvertFrom-Csv @"
@@ -97,16 +98,17 @@ Get-PropertyStats $data
 ```
 
 ```
-ColumnName DataType HasNulls     Min        Max              Avg    Sum
----------- -------- --------     ---        ---              ---    ---
-a          int         False       2         66 36.6666666666667    110
-b          double       True       0     3.1415 1.04716666666667 3.1415
-c          bool        False   False       TRUE
+ColumnName DataType HasNulls Min    Max Median StandardDeviation         Variance    Sum
+---------- -------- -------- ---    --- ------ -----------------         --------    ---
+a          int         False   2     66     42   32.331615074619 1045.33333333333    110
+b          double       True   0 3.1415      0  1.81374587065921 3.28967408333333 3.1415
+c          bool        False
 d          string      False
-e          datetime     True       0 2014-09-15
-f          datetime     True       0 2012-09-08
-g          datetime     True 0:07 PM      12:34
+e          datetime     True
+f          datetime     True
+g          datetime     True
 ```
+
 # Create a Lookup Table
 
 Have data that with a unique id column? Want to use it as a lookup table? Here you go:
