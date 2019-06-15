@@ -69,7 +69,11 @@ Stopped SQLSERVERAGENT SQL Server Agent (MSSQLSERVER) {MSSQLSERVER}
 
 ## Use SQL like query
 
-Supports a simple SQL Select statement syntax.
+**Note**: This feature requires the PowerShell module PSStringScanner.
+
+`Install-Module PSStringScanner`
+
+Supports a simple SQL Select statement syntax for querying arrays of data.
 
 ```powershell
 $actual = $data.query("SELECT cash, name FROM data where name like '*i*' and cash > 100")
