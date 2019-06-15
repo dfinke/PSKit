@@ -20,6 +20,7 @@
 
     # Description of the functionality provided by this module
     Description       = @'
+A suite of command-line tools for working with PowerShell Arrays. From querying to doing array statistics.
 '@
 
     # Minimum version of the Windows PowerShell engine required by this module
