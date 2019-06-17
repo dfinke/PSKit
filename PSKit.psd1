@@ -4,7 +4,7 @@
     RootModule        = 'PSKit.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '1.0.0'
+    ModuleVersion     = '1.1.0'
 
     # ID used to uniquely identify this module
     GUID              = '92cd0d76-f455-4049-b129-bede0e1041af'
@@ -42,7 +42,7 @@ A suite of command-line tools for working with PowerShell Arrays. From querying 
     # ProcessorArchitecture = ''
 
     # Modules that must be imported into the global environment prior to importing this module
-    # RequiredModules = @()
+    RequiredModules   = @("PSStringScanner")
 
     # Assemblies that must be loaded prior to importing this module
     # RequiredAssemblies = @()
