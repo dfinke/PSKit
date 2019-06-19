@@ -10,3 +10,8 @@
 . $PSScriptRoot/GenerateStats.ps1
 . $PSScriptRoot/InvokeTranspileSQL.ps1
 . $PSScriptRoot/ScanProperties.ps1
+
+filter ConvertTo-Property {
+    $i = $_
+    "" | Select-Object @{n = "P1"; e = { $i } }
+}
