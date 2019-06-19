@@ -6,11 +6,12 @@ function GenerateStats {
 
     $names = $TargetData[0].psobject.properties.name
 
+    $NumberOfRowsToCheck = 2
     foreach ($name in $names) {
         $h = [Ordered]@{ }
         $h.ColumnName = $name
 
-        $dt = for ($idx = 0; $idx -lt $NumberOfRowsToCheck + 1; $idx++) {
+        $dt = for ($idx = 0; $idx -lt $NumberOfRowsToCheck; $idx++) {
             if ([string]::IsNullOrEmpty($TargetData[$idx].$name)) {
                 "null"
             }
@@ -25,6 +26,7 @@ function GenerateStats {
         $h.HasNulls = if ($DataType) { @($TargetData.$name -match '^$').count -gt 0 }
         $h.Min = $null
         $h.Max = $null
+        $h.Range = $null
         $h.Median = $null
         $h.StandardDeviation = $null
         $h.Variance = $null
@@ -44,6 +46,7 @@ function GenerateStats {
             }
         }
 
+        $h.Range = $h.Max - $h.Min
         [PSCustomObject]$h
     }
 }

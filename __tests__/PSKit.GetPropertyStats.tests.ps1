@@ -1,6 +1,6 @@
 Import-Module $PSScriptRoot/../PSKit.psd1 -Force
 
-Describe "PSKit tests - Get-PropertyStat-InputObject s" {
+Describe "PSKit tests - Get-PropertyStat -InputObject" {
     BeforeAll {
         $script:data = ConvertFrom-Csv @"
 Name,Age
@@ -68,5 +68,13 @@ John,5
         $actual[1].StandardDeviation | Should Be 5
         $actual[1].Variance | Should Be 25
         $actual[1].Sum | Should Be 30
+    }
+
+    It "Should calculate Range" {
+        # $actual = (30..50) | ForEach-Object { $i = $_; "" | Select-Object @{name = "P1"; e = { $i } } } | Get-PropertyStats
+        $actual = (30..50) | ConvertTo-Property | Get-PropertyStats
+
+        $actual.Min | Should Be 30
+        $actual.Range | Should Be 20
     }
 }
