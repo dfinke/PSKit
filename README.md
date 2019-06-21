@@ -129,7 +129,7 @@ genecov,Genecov Sculpture,32.299076986939205,-95.31571447849274
 This is similar to `Group-Object` built into `PowerShell`. New-LookupTable also handles missing data.
 
 ```powershell
-PS C:\ New-LookupTable $data slug
+PS C:\> New-LookupTable $data slug
 
 Name                           Value
 ----                           -----
