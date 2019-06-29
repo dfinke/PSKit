@@ -19,7 +19,7 @@ genecov,Genecov Sculpture,32.299076986939205,-95.31571447849274
         {$actual -is [hashtable]} | Should Be $true
     }
 
-    It "New-LookupTable should have 3 keys" {
+    It "New-LookupTable should have 3 keys [dcl, tyler-museum, genecov]" {
         $actual = New-LookupTable $data slug
 
         $actual.Keys.Count | Should Be 3
@@ -28,28 +28,36 @@ genecov,Genecov Sculpture,32.299076986939205,-95.31571447849274
         $actual.Contains('genecov') | Should Be $true
     }
 
-    It "New-LookupTable key should have correct property names" {
+    Context "New-LookupTable key [slug] should have correct property names" {
         $actual = New-LookupTable $data slug
-
-        $actual.dcl | Should Not Be $null
         $names = $actual.dcl.psobject.Properties.Name
 
-        $names.Count | Should Be 4
+        It "value should not be [`$null]"{
+            $actual.dcl | Should Not Be $null
+        }
 
-        $names[0] | Should BeExactly 'slug'
-        $names[1] | Should BeExactly 'place'
-        $names[2] | Should BeExactly 'latitude'
-        $names[3] | Should BeExactly 'longitude'
+        It "Count should be [4] and Property names [slug, place, latitude, longitude]"{
+            $names.Count | Should Be 4
+       
+            $names[0] | Should BeExactly 'slug'
+            $names[1] | Should BeExactly 'place'
+            $names[2] | Should BeExactly 'latitude'
+            $names[3] | Should BeExactly 'longitude'
+        }
     }
 
-    It "New-LookupTable key should have correct data" {
+    Context "New-LookupTable key [slug] should have correct data" {
         $actual = New-LookupTable $data slug
 
-        $actual.dcl | Should Not Be $null
+        It "value should not be [`$null]"{
+            $actual.dcl | Should Not Be $null
+        }
 
-        $actual.dcl.slug | Should BeExactly 'dcl'
-        $actual.dcl.place | Should BeExactly 'Downtown Coffee Lounge'
-        $actual.dcl.latitude | Should Be 32.35066
-        $actual.dcl.longitude | Should Be -95.30181
+        It "Values should be ['dcl', 'Downtown Coffee Lounge', 32.35066,-95.30181 ]" {
+            $actual.dcl.slug | Should BeExactly 'dcl'
+            $actual.dcl.place | Should BeExactly 'Downtown Coffee Lounge'
+            $actual.dcl.latitude | Should Be 32.35066
+            $actual.dcl.longitude | Should Be -95.30181
+        }
     }
 }
