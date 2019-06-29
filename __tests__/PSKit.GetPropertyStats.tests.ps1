@@ -18,7 +18,7 @@ John,5
     }
 
     Context "Should calculate property stats when piped [`$data | Get-PropertyStats]" {
-        $actual = $data | Get-PropertyStats
+        $actual = $script:data | Get-PropertyStats
 
         It "Count Data sample should be [2]"{
             $actual.Count | Should Be 2
@@ -50,8 +50,8 @@ John,5
     }
 
     Context "Should calculate property stats [Get-PropertyStats -InputObject `$data]" {
+        $actual = Get-PropertyStats -InputObject $script:data
         It "Count Data sample should be [2]"{
-            $actual = Get-PropertyStats -InputObject $data
             $actual.Count | Should Be 2
         }
 
