@@ -10,50 +10,59 @@ Jeff Smith,2018,Prescott House,17-D,3.2
 Sandy Allen,2019,Oliver House,108,3.48
 "@
     }
+    Context 'CSV File Headers [Name,Class,Dorm,Room,GPA]'{
+        It "Should have five properties [Get-PropertyName -InputObject `$data]" {
+            $actual = Get-PropertyName -InputObject $data
+            $actual.Count | Should Be 5
+        }
 
-    It "Should have five properties" {
-        $actual = Get-PropertyName -InputObject $data
-        $actual.Count | Should Be 5
-    }
+        It "Should have five properties when piped [`$data | Get-PropertyName -Name '*']" {
+            $actual = $data| Get-PropertyName
+            $actual.Count | Should Be 5
+        }
 
-    It "Should have five properties when piped" {
-        $actual = $data| Get-PropertyName
-        $actual.Count | Should Be 5
-    }
+        It "Should have these names ['Name','Class','Dorm','Room','GPA']" {
+            $actual = Get-PropertyName -InputObject $data
 
-    It "Should have these names" {
-        $actual = Get-PropertyName -InputObject $data
+            $actual[0] | Should BeExactly 'Name'
+            $actual[1] | Should BeExactly 'Class'
+            $actual[2] | Should BeExactly 'Dorm'
+            $actual[3] | Should BeExactly 'Room'
+            $actual[4] | Should BeExactly 'GPA'
+        }
 
-        $actual[0] | Should BeExactly 'Name'
-        $actual[1] | Should BeExactly 'Class'
-        $actual[2] | Should BeExactly 'Dorm'
-        $actual[3] | Should BeExactly 'Room'
-        $actual[4] | Should BeExactly 'GPA'
-    }
+        It "Should have these names when piped ['Name','Class','Dorm','Room','GPA']" {
+            $actual = $data | Get-PropertyName -Name '*'
 
-    It "Should have these names when piped" {
-        $actual = $data | Get-PropertyName
+            $actual[0] | Should BeExactly 'Name'
+            $actual[1] | Should BeExactly 'Class'
+            $actual[2] | Should BeExactly 'Dorm'
+            $actual[3] | Should BeExactly 'Room'
+            $actual[4] | Should BeExactly 'GPA'
+        }
 
-        $actual[0] | Should BeExactly 'Name'
-        $actual[1] | Should BeExactly 'Class'
-        $actual[2] | Should BeExactly 'Dorm'
-        $actual[3] | Should BeExactly 'Room'
-        $actual[4] | Should BeExactly 'GPA'
-    }
+        It "Should find one property that match pattern [*e] result [Name]" {
+            $actual = $data | Get-PropertyName '*e'
 
-    It "Should find one name" {
-        $actual = $data | Get-PropertyName '*e'
+            $actual.Count | Should Be 1
+            $actual | Should BeExactly 'Name'
+        }
 
-        $actual.Count | Should Be 1
-        $actual | Should BeExactly 'Name'
-    }
+        It "Should find property with this wildcard pattern [*m*] result ['Name','Dorm','Room']" {
+            $actual = $data | Get-PropertyName -Name '*m*'
 
-    It "Should find these wildcard names" {
-        $actual = $data | Get-PropertyName '*m*'
+            $actual.Count | Should Be 3
+            $actual[0] | Should BeExactly 'Name'
+            $actual[1] | Should BeExactly 'Dorm'
+            $actual[2] | Should BeExactly 'Room'
+        }
 
-        $actual.Count | Should Be 3
-        $actual[0] | Should BeExactly 'Name'
-        $actual[1] | Should BeExactly 'Dorm'
-        $actual[2] | Should BeExactly 'Room'
+        It "Should find property with this wildcard pattern [*o?*] result ['Dorm','Room']" {
+            $actual = $data | Get-PropertyName -Name '*o?*'
+
+            $actual.Count | Should Be 2
+            $actual[0] | Should BeExactly 'Dorm'
+            $actual[1] | Should BeExactly 'Room'
+        }
     }
 }
