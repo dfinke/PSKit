@@ -15,5 +15,7 @@ if ($result.FailedCount -gt 0) {
 }
 
 # "Build.RequestedForId $($env:Build.RequestedForId)" | Out-Host
-
-ls env: | Out-Host
+#ls env: | Out-Host
+if ($env:BUILD_REQUESTEDFOR -like '*doug*') {
+    "Time to make the donuts" | Out-Host
+}
