@@ -14,4 +14,6 @@ if ($result.FailedCount -gt 0) {
     throw "$($result.FailedCount) tests failed."
 }
 
-"Build.RequestedForId $($env:Build.RequestedForId)" | Out-Host
+# "Build.RequestedForId $($env:Build.RequestedForId)" | Out-Host
+
+ls env: | Out-Host
