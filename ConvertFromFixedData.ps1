@@ -22,7 +22,12 @@ function ConvertFrom-FixedData {
     foreach ($record in $fixedData) {
         $h = [ordered]@{ }
         foreach ($schemaRecord in $schema) {
-            $h.($schemaRecord.column) = $record.SubString($schemaRecord.start - 1, $schemaRecord.length)
+            if ($schemaRecord.length -eq '$') {
+                $h.($schemaRecord.column) = $record.SubString($schemaRecord.start - 1)
+            }
+            else {
+                $h.($schemaRecord.column) = $record.SubString($schemaRecord.start - 1, $schemaRecord.length)
+            }
         }
 
         [PSCustomObject]$h
