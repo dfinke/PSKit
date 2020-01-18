@@ -9,10 +9,11 @@ kubernetes        component=apiserver,provider=kubernetes   <none>              
 kubernetes-ro     component=apiserver,provider=kubernetes   <none>                    172.30.0.1      80/TCP
 "@
 
-        $actual = $data -split "`r(`n)?" | ConvertFrom-SSV | Select-Object -Skip 1 -First 1
+        # $actual = $data -split "`n" | ConvertFrom-SSV | Select-Object -Skip 1 -First 1
+        $actual = $data -split "`n" | ConvertFrom-SSV
         $expected = "172.30.0.2"
 
-        $actual.IP | should be $expected
+        $actual[1].IP | should be $expected
     }
 
     It  "Should parse simple data with blank lines" {
@@ -24,7 +25,7 @@ a       b
 3       4
 "@
 
-        $actual = $data -split "`r(`n)?" | ConvertFrom-SSV
+        $actual = $data -split "`n" | ConvertFrom-SSV
 
         $actual[0].a | should be 1
         $actual[1].b | should be 4
@@ -36,7 +37,7 @@ a
 1
 2
 "@
-        $actual = $data -split "`r(`n)?" | ConvertFrom-SSV
+        $actual = $data -split "`n" | ConvertFrom-SSV
 
         $actual[0].a | should be 1
         $actual[1].a | should be 2
@@ -51,7 +52,7 @@ dfinke/foo/dev                                       3 months ago  0            
 dfinke/guestbook-csharp/kubernetes-cs                n/a           n/a             https://app.pulumi.com/dfinke/guestbook-csharp/kubernetes-cs
 dfinke/kata/dev                                      4 months ago  0               https://app.pulumi.com/dfinke/kata/dev
 "@
-        $actual = $data -split "`r(`n)?" | ConvertFrom-SSV
+        $actual = $data -split "`n" | ConvertFrom-SSV
         $expected = "4 months ago"
 
         $actual[4].'LAST UPDATE' | should be $expected
@@ -66,7 +67,7 @@ dfinke/kata/dev                                      4 months ago  0            
 
 "@
 
-        $actual = $data -split "`r(`n)?" | ConvertFrom-SSV
+        $actual = $data -split "`n" | ConvertFrom-SSV
 
     }
 }
