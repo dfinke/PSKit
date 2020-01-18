@@ -10,6 +10,7 @@
 . $PSScriptRoot/GenerateStats.ps1
 . $PSScriptRoot/InvokeTranspileSQL.ps1
 . $PSScriptRoot/ScanProperties.ps1
+. $PSScriptRoot/ConvertFromSSV.ps1
 
 filter ConvertTo-Property {
     $i = $_
