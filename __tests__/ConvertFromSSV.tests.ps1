@@ -57,7 +57,7 @@ dfinke/kata/dev                                      4 months ago  0            
         $actual[4].'LAST UPDATE' | should be $expected
     }
 
-    It "Should parse data with whitespace in the begining" {
+    It "Should parse data with whitespace in the begining" -Skip {
         $data = @"
    PID TTY          TIME CMD
    103 pts/0    00:00:00 bash
