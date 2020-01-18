@@ -31,17 +31,29 @@ function ConvertFrom-SSV {
                 $d = [ordered]@{ }
                 while ($ss.Check($pattern)) {
                     $s = $ss.ScanUntil($pattern).trim()
-                    if ($s -match "-{$($s.length)}") { }
-                    else {
-                        $d.($h[$index]) = $s
-                        $index++
+                    
+                    # blank header
+                    if($h[$index].Length -eq 0) {
+                        $index++                                            
+                        continue
+                    } else {
+                        if ($s -match "-{$($s.length)}") { }
+                        else {
+                            $d.($h[$index]) = $s
+                            $index++
+                        }
                     }
                 }
 
                 $s = $ss.Scan(".*").trim()
-                if ($s -match "-{$($s.length)}") { }
-                else {
-                    $d.($h[$index]) = $s
+                # blank header
+                if($h[$index].Length -eq 0) {
+                    $index++                                            
+                } else {
+                    if ($s -match "-{$($s.length)}") { }
+                    else {
+                        $d.($h[$index]) = $s
+                    }
                 }
 
                 if ($d.keys.count -gt 0) {

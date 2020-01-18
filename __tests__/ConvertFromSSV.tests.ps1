@@ -58,7 +58,7 @@ dfinke/kata/dev                                      4 months ago  0            
         $actual[4].'LAST UPDATE' | should be $expected
     }
 
-    It "Should parse data with whitespace in the begining" -Skip {
+    It "Should parse data with whitespace in the begining" {
         $data = @"
    PID TTY          TIME CMD
    103 pts/0    00:00:00 bash
@@ -67,7 +67,29 @@ dfinke/kata/dev                                      4 months ago  0            
 
 "@
 
-        $actual = $data -split "`n" | ConvertFrom-SSV
+        $actual = $data -split "`n" | ConvertFrom-SSV -min 1
+        $names = $actual[0].psobject.properties.name
 
+        $names.Count | Should Be 4
+        $names[0] | Should BeExactly "PID"
+        $names[1] | Should BeExactly "TTY"
+        $names[2] | Should BeExactly "TIME"
+        $names[3] | Should BeExactly "CMD"
+
+        $actual[0].PID | Should Be 103
+        $actual[1].PID | Should Be 136
+        $actual[2].PID | Should Be 305
+
+        $actual[0].TTY | Should Be "pts/0"
+        $actual[1].TTY | Should Be "pts/0"
+        $actual[2].TTY | Should Be "pts/0"
+
+        $actual[0].TIME | Should Be "00:00:00"
+        $actual[1].TIME | Should Be "00:00:13"
+        $actual[2].TIME | Should Be "00:00:00"
+
+        $actual[0].CMD | Should Be "bash"
+        $actual[1].CMD | Should Be "pwsh"
+        $actual[2].CMD | Should Be "ps"
     }
 }
