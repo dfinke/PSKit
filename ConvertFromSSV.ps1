@@ -1,6 +1,28 @@
 ﻿#Requires -Modules PSStringScanner
 
 function ConvertFrom-SSV {
+    <#
+        .SYNOPSIS
+        Parse text as space-separated values and create objects in PowerShell
+
+        .EXAMPLE
+        Sample `ps` for Linux and uses `-MinimumWhiteSpaceLength 1` in order to parse the `TIME` and `CMD`
+@"
+   PID TTY          TIME CMD
+   103 pts/0    00:00:00 bash
+   136 pts/0    00:00:13 pwsh
+   305 pts/0    00:00:00 ps
+
+"@ -split "`n" | ConvertFrom-SSV -MinimumWhiteSpaceLength 1 | Sort pid -desc
+
+PID TTY   TIME     CMD
+--- ---   ----     ---
+305 pts/0 00:00:00 ps
+136 pts/0 00:00:13 pwsh
+103 pts/0 00:00:00 bash
+
+    #>
+
     param(
         $MinimumWhiteSpaceLength = 2,
         [Parameter(ValueFromPipeline)]
@@ -31,12 +53,13 @@ function ConvertFrom-SSV {
                 $d = [ordered]@{ }
                 while ($ss.Check($pattern)) {
                     $s = $ss.ScanUntil($pattern).trim()
-                    
+
                     # blank header
-                    if($h[$index].Length -eq 0) {
-                        $index++                                            
+                    if ($h[$index].Length -eq 0) {
+                        $index++
                         continue
-                    } else {
+                    }
+                    else {
                         if ($s -match "-{$($s.length)}") { }
                         else {
                             $d.($h[$index]) = $s
@@ -47,9 +70,10 @@ function ConvertFrom-SSV {
 
                 $s = $ss.Scan(".*").trim()
                 # blank header
-                if($h[$index].Length -eq 0) {
-                    $index++                                            
-                } else {
+                if ($h[$index].Length -eq 0) {
+                    $index++
+                }
+                else {
                     if ($s -match "-{$($s.length)}") { }
                     else {
                         $d.($h[$index]) = $s
