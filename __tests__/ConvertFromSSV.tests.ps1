@@ -92,4 +92,73 @@ dfinke/kata/dev                                      4 months ago  0            
         $actual[1].CMD | Should Be "pwsh"
         $actual[2].CMD | Should Be "ps"
     }
+
+    It "Should multi whitespace" {
+        $data = @"
+            column a   column b
+            entry 1    entry number  2
+            3          four
+"@
+
+        $actual = $data -split "`n" | ConvertFrom-SSV -MinimumWhiteSpaceLength 3
+
+        $names = $actual[0].psobject.properties.name
+        $actual.count | should be 2
+
+        $names[0] | should beexactly 'column a'
+        $names[1] | should beexactly 'column b'
+
+        $actual[0].'column a' | should beexactly 'entry 1'
+        $actual[1].'column a' | should beexactly 3
+
+        $actual[0].'column b' | should beexactly 'entry number  2'
+        $actual[1].'column b' | should beexactly 'four'
+    }
+
+    It "Should multi whitespace and single row" {
+        $data = @"
+            colA   colB     colC
+            val1   val2     val3
+"@
+        $actual = @($data -split "`n" | ConvertFrom-SSV -MinimumWhiteSpaceLength 3)
+        $names = $actual[0].psobject.properties.name
+
+        $actual.Count | Should be 1
+        $names.Count | Should be 3
+
+        $actual[0].colA | Should beexactly 'val1'
+        $actual[0].colB | Should beexactly 'val2'
+        $actual[0].colC | Should beexactly 'val3'
+    }
+
+    It "Should multi whitespace and single row" -Skip {
+        $data = @"
+                colA   col B     col C
+                       val2      val3
+                val4   val 5     val 6
+                val7             val8
+
+    "@
+            $actual = @($data -split "`n" | ConvertFrom-SSV -MinimumWhiteSpaceLength 3)
+            $names = $actual[0].psobject.properties.name
+
+            $names.Count | Should be 3
+
+    }
+
+    It "Should handle trailing values" -Skip {
+        $data = @"
+            colA   col B
+            val1   val2   trailing value that should be included
+"@
+        $actual = @($data -split "`n" | ConvertFrom-SSV )
+        $names = $actual[0].psobject.properties.name
+
+        $actual.Count | Should be 1
+        $names.Count | Should be 2
+
+        $actual[0].colA | Should beexactly 'val1'
+        #$actual[0].colB | Should beexactly 'val2'
+    }
+
 }
