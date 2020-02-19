@@ -6,7 +6,7 @@ Describe "PSKit tests - New-Dataframe" {
     }
 
     It "Should return 1 row" {
-        $actual = New-DataFrame 1 $propertyNames
+        $actual = @(New-DataFrame 1 $propertyNames)
 
         $actual.Count | Should be 1
 
@@ -16,7 +16,7 @@ Describe "PSKit tests - New-Dataframe" {
     }
 
     It "Should return 1 row and properties set to 1" {
-        $actual = New-DataFrame 1 $propertyNames { 1 }
+        $actual = @(New-DataFrame 1 $propertyNames { 1 })
 
         $actual.Count | Should be 1
 
