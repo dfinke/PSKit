@@ -5,6 +5,12 @@ Describe "PSKit tests - Get-DateRange" {
         $fmt = 'yyyy-MM-dd'
     }
 
+    It "Should return one date" {
+        $actual = Get-DateRange
+
+        $actual.count | should be 1
+    }
+
     It "Should return date run on" {
         $actual = Get-DateRange -periods 1
 
@@ -87,5 +93,19 @@ Describe "PSKit tests - Get-DateRange" {
         $actual[2] | should be (Get-Date $end).ToString($fmt)
         # $actual[3] | should be (Get-Date $date).AddDays(3).ToString($fmt)
         # $actual[4] | should be (Get-Date $date).AddDays(4).ToString($fmt)
+    }
+
+    It "Should" {
+        $date = '1/1/2020'
+        $end = '1/5/2020'
+        $periods = 3
+
+        $actual = Get-DateRange $date $end -periods $periods -freq M
+
+        $actual.Count | should be 3
+
+        $actual[0] | should be (Get-Date $date).AddMonths(0).ToString($fmt)
+        $actual[1] | should be (Get-Date $date).AddMonths(1).ToString($fmt)
+        $actual[2] | should be '2020-05-01'
     }
 }

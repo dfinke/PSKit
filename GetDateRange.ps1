@@ -53,7 +53,13 @@ function Get-DateRange {
     }
 
     $fmt = 'yyyy-MM-dd'
-    $n = $periods - 1
+
+    if ((@{ } + $PSBoundParameters).count -eq 0) {
+        $n = 0
+    }
+    else {
+        $n = $periods - 1
+    }
 
     if ($end) {
         $totalNumberOfDates = ($end - $start).totaldays
@@ -64,8 +70,10 @@ function Get-DateRange {
 
     $r = 0..$n | ForEach-Object { $start.$targetMethod($_).ToString($fmt) }
 
-    # set the last element to the end date 'right' close
-    if ($totalNumberOfDates -gt $periods) { $r[-1] = $end.$targetMethod($_).ToString($fmt) }
+    # set the last element to the end date
+    if ($totalNumberOfDates -gt $periods) {
+        $r[-1] = $start.$targetMethod($totalNumberOfDates).ToString($fmt)
+    }
 
     $r
 }
