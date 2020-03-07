@@ -36,17 +36,10 @@ East,saw,45
         $r.Region | should beexactly 'East'
         $r.Count | should be 2
 
-        # $actual[1].Region | should beexactly 'North'
-        # $actual[1].Count | should be 2
-        # $actual[2].Region | should beexactly 'South'
-        # $actual[2].Count | should be 2
-        # $actual[3].Region | should beexactly 'East'
-        # $actual[3].Count | should be 2
-
-        # $names = $actual[0].psobject.properties.name
-        # $names.count | should be 2
-        # $names[0] | should beexactly 'Region'
-        # $names[1] | should beexactly 'Count'
+        $names = $actual[0].psobject.properties.name
+        $names.count | should be 2
+        $names[0] | should beexactly 'Region'
+        $names[1] | should beexactly 'Count'
     }
 
     # It "Should calc Average" {
