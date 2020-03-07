@@ -1,5 +1,8 @@
 function Get-DateRange {
     <#
+        .Synopsis
+        Return a fixed frequency Datetime Index
+
         .Example
         Get-DateRange 1/1/2020 -periods 6
 
@@ -9,6 +12,15 @@ function Get-DateRange {
         2020-01-04
         2020-01-05
         2020-01-06
+
+        .Example
+        New-DataFrame (Get-DateRange 1/1/2020 -periods 3 -freq M) a,b,c
+
+Index      a         b         c
+-----      -         -         -
+2020-01-01 [missing] [missing] [missing]
+2020-02-01 [missing] [missing] [missing]
+2020-03-01 [missing] [missing] [missing]
 
         .Example
         Get-DateRange 1/1/2020 -periods 6 -freq M
