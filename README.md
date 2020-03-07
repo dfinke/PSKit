@@ -4,7 +4,136 @@
 
 A suite of command-line tools for working with PowerShell arrays.
 
+|Function|
+|---|
+|ConvertFrom-FixedData
+|ConvertFrom-SQLToPS
+|ConvertFrom-SSV
+|ConvertFrom-TranspileSQL
+|Convert-IntoCSV
+|Get-DateRange
+|Get-PropertyName
+|Get-PropertyStats
+|Group-ByAndMeasure
+|Import-SSV
+|Invoke-ScanProperties
+|Invoke-TranspileSQL
+|New-DataFrame
+|New-LookupTable
+|Read-Csv
 
+## Read-Csv
+
+Read comma-separated values (csv). $target can be a URL, a file, or a string
+
+```powershell
+#$file = "targetData.csv"
+$url = 'https://raw.githubusercontent.com/dfinke/ImportExcel/master/Examples/JustCharts/TargetData.csv'
+$str = @"
+"Cost","Date","Name"
+"1.1","1/1/2015","John"
+"2.1","1/2/2015","Tom"
+"5.1","1/2/2015","Dick"
+"11.1","1/2/2015","Harry"
+"7.1","1/2/2015","Jane"
+"22.1","1/2/2015","Mary"
+"32.1","1/2/2015","Liz"
+"@
+
+$str, $url | Read-Csv
+```
+
+```
+Cost Date     Name
+---- ----     ----
+1.1  1/1/2015 John
+2.1  1/2/2015 Tom
+5.1  1/2/2015 Dick
+11.1 1/2/2015 Harry
+7.1  1/2/2015 Jane
+22.1 1/2/2015 Mary
+32.1 1/2/2015 Liz
+1.1  1/1/2015 John
+2.1  1/2/2015 Tom
+5.1  1/2/2015 Dick
+11.1 1/2/2015 Harry
+7.1  1/2/2015 Jane
+22.1 1/2/2015 Mary
+32.1 1/2/2015 Liz
+```
+
+## New-DataFrame
+
+Creates an array of objects, size-mutable, can be heterogeneous, tabular data
+
+```powershell
+New-DataFrame (Get-DateRange 1/1 -periods 5) p1,p2,3 {Get-Random}
+```
+
+```
+Index              p1         p2          3
+-----              --         --          -
+2020-01-01  708420917 1112428663  523426202
+2020-01-02 1643869654 2086787197 1127195815
+2020-01-03 1095068483 2006354687 1612194161
+2020-01-04 1561123134 1004618008 1431794170
+2020-01-05  851611997  189055864  871342612
+```
+## Group-ByAndMeasure
+
+Groups data and can either get the Count, Average, Sum, Maximum or Minimum
+
+```powershell
+$str = @"
+Region,Item,TotalSold
+West,apple,2
+South,lemon,4
+East,avocado,12
+South,screwdriver,70
+North,avocado,59
+North,hammer,33
+North,screws,69
+East,apple,21
+West,lemon,67
+South,drill,52
+"@
+
+Group-ByAndMeasure (Read-Csv $str) Region TotalSold Sum
+```
+
+```
+Region Sum
+------ ---
+West    69
+South  126
+East    33
+North  161
+```
+
+## Get-DateRange
+
+Return a fixed frequency Datetime Index
+
+```powershell
+Get-DateRange 1/1/2020 -periods 6
+
+2020-01-01
+2020-01-02
+2020-01-03
+2020-01-04
+2020-01-05
+2020-01-06
+
+New-DataFrame (Get-DateRange 1/1/2020 -periods 3 -freq M) a,b,c
+```
+
+```
+Index      a         b         c
+-----      -         -         -
+2020-01-01 [missing] [missing] [missing]
+2020-02-01 [missing] [missing] [missing]
+2020-03-01 [missing] [missing] [missing]
+```
 # SQL Query
 
 The `PSKit` module adds a method `Query()` to lists of objects. You pass a SQL statement to it to work on that set of data. Currently, the SQL syntax is limited to Select the properties you want to see and a Where clause with value type comparison and logical operators. It does not support multiple arrays, joins or aliasing etc.

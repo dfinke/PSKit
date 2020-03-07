@@ -1,7 +1,7 @@
 function New-DataFrame {
     <#
         .Synopsis
-        Array of objects, size-mutable, can be heterogeneous, tabular data
+        Creates an array of objects, size-mutable, can be heterogeneous, tabular data
 
         .Example
         New-DataFrame (Get-DateRange 1/1 -periods 5) p1,p2,3 {Get-Random}
