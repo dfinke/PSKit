@@ -2,7 +2,7 @@ Import-Module $PSScriptRoot/../PSKit.psd1 -Force
 Describe "PSKit tests - Get-DateRange" {
 
     BeforeAll {
-        $fmt = 'yyyy-MM-dd'
+        $script:fmt = 'yyyy-MM-dd'
     }
 
     It "Should return one date" {

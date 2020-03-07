@@ -3,11 +3,11 @@ Import-Module $PSScriptRoot/../PSKit.psd1 -Force
 Describe "PSKit tests - Read-Csv" {
 
     BeforeAll {
-        $url = 'https://raw.githubusercontent.com/dfinke/ImportExcel/master/Examples/JustCharts/TargetData.csv'
+        $script:url = 'https://raw.githubusercontent.com/dfinke/ImportExcel/master/Examples/JustCharts/TargetData.csv'
 
-        $file = "$PSScriptRoot\..\data\targetData.csv"
+        $script:file = "$PSScriptRoot\..\data\targetData.csv"
 
-        $str = @"
+        $script:str = @"
 "Cost","Date","Name"
 "1.1","1/1/2015","John"
 "2.1","1/2/2015","Tom"
