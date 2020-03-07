@@ -12,7 +12,9 @@
 . $PSScriptRoot/InvokeTranspileSQL.ps1
 . $PSScriptRoot/NewDataframe.ps1
 . $PSScriptRoot/NewLookupTable.ps1
+. $PSScriptRoot/ReadCsv.ps1
 . $PSScriptRoot/ScanProperties.ps1
+. $PSScriptRoot/GroupByAndMeasure.ps1
 
 filter ConvertTo-Property {
     $i = $_
