@@ -20,3 +20,37 @@ filter ConvertTo-Property {
     $i = $_
     "" | Select-Object @{n = "P1"; e = { $i } }
 }
+
+# Added here, just for PS Jupyter Notebooks. May move elsewhere.
+if (Get-Command Get-HtmlContent -ErrorAction SilentlyContinue) {
+    function ConvertTo-MarkdownTable {
+        param(
+            [parameter(ValueFromPipeline)]
+            $targetData
+        )
+
+        Begin { $allData = @() }
+
+        Process { $allData += $targetData }
+
+        End {
+            $names = $allData[0].psobject.Properties.name
+
+            $result = foreach ($record in $allData) {
+                $inner = @()
+                foreach ($name in $names) {
+                    $inner += $record.$name
+                }
+                '|' + ($inner -join '|') + '|' + "`n"
+            }
+
+            (@"
+$('|' + ($names -join '|') + '|')
+$(('|---' * ($names.Count - 1)) + '|')
+$($result)
+"@ | ConvertFrom-Markdown).html | Get-HtmlContent | Out-Display
+        }
+    }
+
+    Set-Alias ctmt ConvertTo-MarkdownTable
+}
