@@ -69,6 +69,9 @@ Index      a         b         c
     if ((@{ } + $PSBoundParameters).count -eq 0) {
         $n = 0
     }
+    elseif ($start -and !$end -and !$periods) {
+        $n = 0
+    }
     else {
         $n = $periods - 1
     }
