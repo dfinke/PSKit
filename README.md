@@ -2,6 +2,10 @@
 
 # PSKit - PowerShell Kit
 
+Try it out in a PowerShell Jupyter Notebook here:
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dfinke/PSKit/master)
+
 A suite of command-line tools for working with PowerShell arrays.
 
 |Function|
