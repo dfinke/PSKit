@@ -21,8 +21,17 @@ filter ConvertTo-Property {
     "" | Select-Object @{n = "P1"; e = { $i } }
 }
 
+function Script:Test-JupyterNotebook {
+    if (Get-Command Get-HtmlContent -ErrorAction SilentlyContinue) {
+        $true
+    }
+    else {
+        $false
+    }
+}
+
 # Added here, just for PS Jupyter Notebooks. May move elsewhere.
-if (Get-Command Get-HtmlContent -ErrorAction SilentlyContinue) {
+if (Test-JupyterNotebook) {
     function ConvertTo-MarkdownTable {
         param(
             [parameter(ValueFromPipeline)]
@@ -31,7 +40,15 @@ if (Get-Command Get-HtmlContent -ErrorAction SilentlyContinue) {
 
         Begin { $allData = @() }
 
-        Process { $allData += $targetData }
+        Process {
+            # $allData += $targetData
+            if ($targetData.gettype().name -match 'HashTable|OrderedDictionary') {
+                $allData = [PSCustomObject]$targetData
+            }
+            else {
+                $allData += $targetData
+            }
+        }
 
         End {
             $names = $allData[0].psobject.Properties.name
