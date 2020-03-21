@@ -53,8 +53,8 @@ West,peach,67
     It "Should have the correct detailed DataTypeSummary info" {
         $actual = Get-DataInfo $data -Raw
 
-        $actual.DataTypeSummary[0] | Should -BeExactly 'string(2)'
-        $actual.DataTypeSummary[1] | Should -BeExactly 'int(1)'
+        $actual.DataTypeSummary[0] | Should -BeExactly 'int(1)'
+        $actual.DataTypeSummary[1] | Should -BeExactly 'string(2)'
     }
 
     It "Should have the correct overall summary" -Skip {
