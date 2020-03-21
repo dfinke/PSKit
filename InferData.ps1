@@ -1,8 +1,8 @@
-function Test-String{
+function Test-String {
     param($p)
 
     [PSCustomObject]@{
-        Test=$p -is [string]
+        Test     = ($p -is [string] -or $p.GetType().BaseType.Name -eq 'Enum')
         DataType = "string"
     }
 }
@@ -10,10 +10,10 @@ function Test-String{
 function Test-Date {
     param($p)
 
-    [datetime]$result  = [datetime]::MinValue
+    [datetime]$result = [datetime]::MinValue
 
     [PSCustomObject]@{
-        Test=[datetime]::TryParse($p, [ref]$result)
+        Test     = [datetime]::TryParse($p, [ref]$result)
         DataType = "datetime"
     }
 }
@@ -22,10 +22,10 @@ function Test-Boolean {
     param($p)
 
     #[bool]$result  = [bool]::FalseString
-    [bool]$result  = $false
+    [bool]$result = $false
 
     [PSCustomObject]@{
-        Test=[bool]::TryParse($p, [ref]$result)
+        Test     = [bool]::TryParse($p, [ref]$result)
         DataType = "bool"
     }
 }
@@ -33,10 +33,10 @@ function Test-Boolean {
 function Test-Number {
     param($p)
 
-    [double]$result  = [double]::MinValue
+    [double]$result = [double]::MinValue
 
     [PSCustomObject]@{
-        Test=[double]::TryParse($p, [ref]$result)
+        Test     = [double]::TryParse($p, [ref]$result)
         DataType = "double"
     }
 }
@@ -44,10 +44,10 @@ function Test-Number {
 function Test-Integer {
     param($p)
 
-    [int]$result  = [int]::MinValue
+    [int]$result = [int]::MinValue
 
     [PSCustomObject]@{
-        Test=[int]::TryParse($p, [ref]$result)
+        Test     = [int]::TryParse($p, [ref]$result)
         DataType = "int"
     }
 }
@@ -67,27 +67,29 @@ function Invoke-AllTests {
         [Switch]$FirstOne
     )
 
-    $resultCount=0
+    $resultCount = 0
     $tests.GetEnumerator() | ForEach-Object {
 
-        $result=& $_.Value $target
+        $result = & $_.Value $target
 
         $testResult = [PSCustomObject]@{
-            Test   = $_.Key
-            Target = $target
-            Result = $result.Test
-            DataType= $result.DataType
+            Test     = $_.Key
+            Target   = $target
+            Result   = $result.Test
+            DataType = $result.DataType
         }
 
-        if(!$OnlyPassing) {
+        if (!$OnlyPassing) {
             $testResult
-        } elseif ($result.Test -eq $true) {
-            if($FirstOne) {
-                if($resultCount -ne 1) {
+        }
+        elseif ($result.Test -eq $true) {
+            if ($FirstOne) {
+                if ($resultCount -ne 1) {
                     $testResult
-                    $resultCount+=1
+                    $resultCount += 1
                 }
-            } else {
+            }
+            else {
                 $testResult
             }
         }
