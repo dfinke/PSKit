@@ -57,7 +57,7 @@ West,peach,67
         $actual.DataTypeSummary[1] | Should -BeExactly 'int(1)'
     }
 
-    It "Should have the correct overall summary" {
+    It "Should have the correct overall summary" -Skip {
 
         $actual = Get-DataInfo $data
         $expected = @"
@@ -68,7 +68,7 @@ Columns:  3
 ColumnName NonNull DataType
 ---------- ------- --------
 Region          10 string
-Item             9 string
+ItemName        10 string
 TotalSold       10 int
 
 
@@ -76,13 +76,17 @@ TotalSold       10 int
 string(2) int(1)
 
 "@
-        $records = $actual.split("`n")
-        $expectedRecords = $expected.split("`n")
+        $nl = [System.Environment]::NewLine
 
-        $records.Count | Should -Be 13
+        $records = $actual.split($nl)
+        $expectedRecords = $expected.split($nl)
 
-        foreach ($item in 0..13) {
-            $records[0] | Should -BeExactly $expectedRecords[0]
+        $records.Count | Should -Be 25
+
+        foreach ($item in 0..25) {
+            if ($records[$item].length -gt 0 -and $expectedRecords[$item].length -gt 0) {
+                $records[$item] | Should -BeExactly $expectedRecords[$item]
+            }
         }
     }
 }
