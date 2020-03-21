@@ -28,6 +28,42 @@ A suite of command-line tools for working with PowerShell arrays.
 |New-DataFrame
 |New-LookupTable
 
+## Get-DataInfo
+
+This function prints information about a PowerShell object array including the column name, column data type, non-null values.
+
+```powershell
+$data = ConvertFrom-Csv @"
+Region,ItemName,Units,TotalSold
+,screws,5.3,3
+North,,5.7,58
+East,drill,6.3
+"@
+
+$data.info()
+# Get-DataInfo $data
+```
+
+```
+Entries: 3
+Columns:  4
+
+
+ColumnName NonNull DataType
+---------- ------- --------
+Region           2 string
+ItemName         2 string
+Units            3 double
+TotalSold        2 int
+
+
+
+string(2) double(1) int(1)
+
+
+```
+
+
 ## Read-Csv
 
 Read comma-separated values (csv). $target can be a URL, a file, or a string
