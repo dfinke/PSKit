@@ -1,4 +1,30 @@
 function Get-DataInfo {
+    <#
+
+        .Example
+(ConvertFrom-Csv @"
+Region,ItemName,Units,TotalSold
+,screws,5.3,3
+North,,5.7,58
+East,drill,6.3
+"@).info()
+
+Entries: 3
+Columns:  4
+
+
+ColumnName NonNull DataType
+---------- ------- --------
+Region           2 string
+ItemName         2 string
+Units            3 double
+TotalSold        2 int
+
+
+
+string(2) double(1) int(1)
+
+    #>
     param(
         [Parameter(Mandatory)]
         $TargetData,
