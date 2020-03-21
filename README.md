@@ -15,6 +15,9 @@ A suite of command-line tools for working with PowerShell arrays.
 |ConvertFrom-SSV
 |ConvertFrom-TranspileSQL
 |Convert-IntoCSV
+|ConvertTo-Property
+|Get-DataInfo
+|GetDataTypePrecedence
 |Get-DateRange
 |Get-PropertyName
 |Get-PropertyStats
@@ -24,7 +27,6 @@ A suite of command-line tools for working with PowerShell arrays.
 |Invoke-TranspileSQL
 |New-DataFrame
 |New-LookupTable
-|Read-Csv
 
 ## Read-Csv
 
