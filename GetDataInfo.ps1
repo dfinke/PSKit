@@ -59,7 +59,7 @@ string(2) double(1) int(1)
         Result          = $result
         Entries         = $totalRecords
         Columns         = $names.count
-        DataTypeSummary = foreach ($record in $result | Group-Object -NoElement DataType) {
+        DataTypeSummary = foreach ($record in $result | Group-Object -NoElement DataType | Sort-Object Name) {
             "{0}({1})" -f $record.Name, $record.Count
         }
     }
