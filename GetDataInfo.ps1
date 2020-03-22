@@ -78,3 +78,32 @@ $($rawData.DataTypeSummary)
 
     }
 }
+
+## TODO: Refactor `Get-DataInfo` to use this
+function Get-DataType {
+    param(
+        [Parameter(Mandatory)]
+        $TargetData
+    )
+
+    $names = $TargetData[0].psobject.properties.name
+
+    $NumberOfRowsToCheck = 2
+    foreach ($name in $names) {
+        $h = [Ordered]@{ }
+        $h.ColumnName = $name
+
+        $dt = for ($idx = 0; $idx -lt $NumberOfRowsToCheck; $idx++) {
+            if ([string]::IsNullOrEmpty($TargetData[$idx].$name)) {
+                "null"
+            }
+            else {
+                (Invoke-AllTests  $TargetData[$idx].$name -OnlyPassing -FirstOne).datatype
+            }
+        }
+
+        $h.DataType = GetDataTypePrecedence @($dt)
+
+        [pscustomobject]$h
+    }
+}

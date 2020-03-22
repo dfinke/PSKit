@@ -64,3 +64,12 @@ Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName Shap
         Columns = $this[0].psobject.Properties.name.count
     }
 }
+
+Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName Columns -Value {
+    #$this[0].psobject.properties.name
+    $this.DTypes().ColumnName
+}
+
+Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName DTypes -Value {
+    Get-DataType $this
+}

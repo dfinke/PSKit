@@ -63,11 +63,18 @@ if (Test-JupyterNotebook) {
                 '|' + ($inner -join '|') + '|' + "`n"
             }
 
-            (@"
+            $html = (@"
 $('|' + ($names -join '|') + '|')
 $(('|---' * ($names.Count - 1)) + '|')
 $($result)
-"@ | ConvertFrom-Markdown).html | Out-Display
+"@ | ConvertFrom-Markdown).html
+
+            if (Get-Command Get-HtmlContent -ErrorAction SilentlyContinue) {
+                $html | Get-HtmlContent | Out-Display
+            }
+            else {
+                $html | Out-Display
+            }
         }
     }
 

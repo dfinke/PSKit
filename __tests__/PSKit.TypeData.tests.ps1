@@ -21,6 +21,9 @@ South,screws,71
     It "Should have these data types added" {
         $actual = (Get-TypeData -TypeName Array).Members
 
+
+        $actual.ContainsKey('DTypes') | Should Be $true
+        $actual.ContainsKey('columns') | Should Be $true
         $actual.ContainsKey('head') | Should Be $true
         $actual.ContainsKey('tail') | Should Be $true
         $actual.ContainsKey('info') | Should Be $true
@@ -76,4 +79,25 @@ South,screws,71
         $actual[0].Columns | Should -Be 3
     }
 
+    It "Should return the correct column names" {
+        $actual = $data.Columns()
+
+        $actual.Count | Should -Be 3
+        $actual[0] | Should -BeExactly "Region"
+        $actual[1] | Should -BeExactly "ItemName"
+        $actual[2] | Should -BeExactly "TotalSold"
+    }
+
+    It "Should return the correct datatypes names" {
+        $actual = $data.DTypes()
+
+        $actual.Count | Should -Be 3
+
+        $actual[0].ColumnName | Should -BeExactly "Region"
+        $actual[0].DataType | Should -BeExactly "string"
+        $actual[1].ColumnName | Should -BeExactly "ItemName"
+        $actual[1].DataType | Should -BeExactly "string"
+        $actual[2].ColumnName | Should -BeExactly "TotalSold"
+        $actual[2].DataType | Should -BeExactly "int"
+    }
 }
