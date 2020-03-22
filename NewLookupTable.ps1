@@ -46,16 +46,3 @@ function New-LookupTable {
 
     $h
 }
-
-Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName SetIndex -Value {
-    param($key)
-
-    New-LookupTable -InputObject $this -key $key
-    # $result = New-LookupTable -InputObject $this -key $key
-    # if (Test-JupyterNotebook) {
-    #     $result | ConvertTo-MarkdownTable
-    # }
-    # else {
-    #     $result
-    # }
-}

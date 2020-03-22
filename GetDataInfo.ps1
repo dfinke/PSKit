@@ -78,7 +78,3 @@ $($rawData.DataTypeSummary)
 
     }
 }
-
-Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName info -Value {
-    Get-DataInfo -TargetData $this
-}

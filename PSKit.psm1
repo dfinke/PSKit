@@ -3,6 +3,7 @@
 . $PSScriptRoot/ConvertFromFixedData.ps1
 . $PSScriptRoot/ConvertFromSSV.ps1
 . $PSScriptRoot/ConvertIntoCSV.ps1
+. $PSScriptRoot/CustomTypeData.ps1
 . $PSScriptRoot/GenerateStats.ps1
 . $PSScriptRoot/GetDataInfo.ps1
 . $PSScriptRoot/GetDataTypePrecedence.ps1

@@ -39,7 +39,3 @@ function Get-PropertyStats {
         }
     }
 }
-
-Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName stats -Value {
-    Get-PropertyStats -InputObject $this
-}

@@ -87,14 +87,3 @@ TechSmith Corporation             208
     }
 
 }
-
-Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName GroupAndMeasure -Value {
-    param(
-        $GroupBy,
-        $MeasureProperty,
-        [ValidateSet('Average', 'Maximum', 'Minimum', 'Sum', 'Count')]
-        $MeasureOperation
-    )
-
-    Group-ByAndMeasure -targetData $this -GroupBy $GroupBy -MeasureProperty $MeasureProperty -MeasureOperation $MeasureOperation
-}

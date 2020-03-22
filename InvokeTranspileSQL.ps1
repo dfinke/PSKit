@@ -130,11 +130,3 @@ function ConvertFrom-TranspileSQL {
 
     $sqlResult
 }
-
-Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName query -Value {
-    param($q)
-
-    $psquery = Invoke-TranspileSQL $q | ConvertFrom-TranspileSQL
-
-    Invoke-Expression "`$this $psquery"
-}

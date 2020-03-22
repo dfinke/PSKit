@@ -15,9 +15,3 @@ function Invoke-ScanProperties {
         }
     }
 }
-
-Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName ScanProperties -Value {
-    param($pattern)
-
-    Invoke-ScanProperties -InputObject ($this) -Pattern $pattern
-}
