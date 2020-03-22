@@ -39,18 +39,19 @@ Cost Date     Name
     #>
     param(
         [Parameter(ValueFromPipeline)]
-        $target
+        $target,
+        $Delimiter = ","
     )
 
     Process {
         if ([System.Uri]::IsWellFormedUriString($target, [System.UriKind]::Absolute)) {
-            ConvertFrom-Csv (Invoke-RestMethod $target)
+            ConvertFrom-Csv (Invoke-RestMethod $target) -Delimiter $Delimiter
         }
         elseif (Test-Path $target -ErrorAction SilentlyContinue) {
-            Import-Csv $target
+            Import-Csv $target -Delimiter $Delimiter
         }
         else {
-            ConvertFrom-Csv $target
+            ConvertFrom-Csv $target -Delimiter $Delimiter
         }
     }
 }

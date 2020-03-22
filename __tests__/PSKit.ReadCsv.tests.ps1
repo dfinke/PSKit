@@ -22,32 +22,51 @@ Describe "PSKit tests - Read-Csv" {
     It "Shoud Read from a url" {
         $actual = Read-Csv $url
 
-        $actual.Count | should be 7
+        $actual.Count | Should -Be 7
 
         $actual = $url | Read-Csv
-        $actual.Count | should be 7
+        $actual.Count | Should -Be 7
     }
 
     It "Shoud Read from a file" {
         $actual = Read-Csv $file
-        $actual.Count | should be 7
+        $actual.Count | Should -Be 7
 
         $actual = $file | Read-Csv
-        $actual.Count | should be 7
+        $actual.Count | Should -Be 7
     }
 
     It "Shoud Read from a string" {
 
         $actual = Read-Csv $str
-        $actual.Count | should be 7
+        $actual.Count | Should -Be 7
 
         $actual = $str | Read-Csv
-        $actual.Count | should be 7
+        $actual.Count | Should -Be 7
     }
 
     It "Should do all" {
         $actual = $url, $str, $file | Read-Csv
 
-        $actual.Count | should be 21
+        $actual.Count | Should -Be 21
+    }
+
+    It "Should Read Tab Separated Values from a string" {
+        $tsvData = @"
+Region`tItemName`tTotalSold
+South`torange`t31
+West`tmelon`t91
+South`tpear`t40
+North`tdrill`t43
+South`torange`t77
+South`tpeach`t67
+West`tscrews`t48
+North`tavocado`t52
+North`tpeach`t63
+East`tavocado1`t62
+"@
+        $actual = Read-Csv -target $tsvData -Delimiter "`t"
+
+        $actual.Count | Should -Be 10
     }
 }
