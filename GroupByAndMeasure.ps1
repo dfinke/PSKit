@@ -97,12 +97,4 @@ Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName Grou
     )
 
     Group-ByAndMeasure -targetData $this -GroupBy $GroupBy -MeasureProperty $MeasureProperty -MeasureOperation $MeasureOperation
-    # $result = Group-ByAndMeasure -targetData $this -GroupBy $GroupBy -MeasureProperty $MeasureProperty -MeasureOperation $MeasureOperation
-
-    # if (Test-JupyterNotebook) {
-    #     $result | ConvertTo-MarkdownTable
-    # }
-    # else {
-    #     $result
-    # }
 }
