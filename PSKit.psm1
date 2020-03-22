@@ -23,7 +23,7 @@ filter ConvertTo-Property {
 }
 
 function Script:Test-JupyterNotebook {
-    if (Get-Command Get-HtmlContent -ErrorAction SilentlyContinue) {
+    if (Get-Command Out-Display -ErrorAction SilentlyContinue) {
         $true
     }
     else {
@@ -66,7 +66,7 @@ if (Test-JupyterNotebook) {
 $('|' + ($names -join '|') + '|')
 $(('|---' * ($names.Count - 1)) + '|')
 $($result)
-"@ | ConvertFrom-Markdown).html | Get-HtmlContent | Out-Display
+"@ | ConvertFrom-Markdown).html | Out-Display
         }
     }
 
