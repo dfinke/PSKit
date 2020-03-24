@@ -12,6 +12,7 @@
 . $PSScriptRoot/GetPropertyStats.ps1
 . $PSScriptRoot/GroupByAndMeasure.ps1
 . $PSScriptRoot/InferData.ps1
+. $PSScriptRoot/InvokePivot.ps1
 . $PSScriptRoot/InvokeTranspileSQL.ps1
 . $PSScriptRoot/NewDataframe.ps1
 . $PSScriptRoot/NewLookupTable.ps1
