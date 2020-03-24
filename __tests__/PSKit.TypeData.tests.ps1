@@ -21,7 +21,7 @@ South,screws,71
     It "Should have these data types added" {
         $actual = (Get-TypeData -TypeName Array).Members
 
-
+        $actual.ContainsKey('Plot') | Should Be $true
         $actual.ContainsKey('DTypes') | Should Be $true
         $actual.ContainsKey('columns') | Should Be $true
         $actual.ContainsKey('head') | Should Be $true

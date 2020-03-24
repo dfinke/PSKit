@@ -73,3 +73,19 @@ Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName Colu
 Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName DTypes -Value {
     Get-DataType $this
 }
+
+
+Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName Plot -Value {
+    param($x = "x", $y = "y", $title = "[Title]")
+
+    if (Test-JupyterNotebook) {
+        [Graph.Scatter]@{
+            #name = "Average"
+            x = $this.$x
+            y = $this.$y
+        } | New-PlotlyChart -Title $title | Out-Display
+    }
+    else {
+        Throw "Plot can only work in PowerShell Jupyter Notebooks"
+    }
+}
