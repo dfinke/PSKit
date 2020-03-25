@@ -15,6 +15,7 @@
 . $PSScriptRoot/InvokePivot.ps1
 . $PSScriptRoot/InvokeTranspileSQL.ps1
 . $PSScriptRoot/NewDataframe.ps1
+. $PSScriptRoot/NewDimension.ps1
 . $PSScriptRoot/NewLookupTable.ps1
 . $PSScriptRoot/ReadCsv.ps1
 . $PSScriptRoot/ScanProperties.ps1
