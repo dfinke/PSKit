@@ -2,6 +2,10 @@
 
 # PSKit - PowerShell Kit
 
+![image you should not have](http://agentidea.com/images/IMG_2947.jpg)
+*** oh no!!***
+
+
 Try it out in a PowerShell Jupyter Notebook here:
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dfinke/PSKit/master)
