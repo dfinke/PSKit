@@ -4,10 +4,12 @@
 . $PSScriptRoot/ConvertFromSSV.ps1
 . $PSScriptRoot/ConvertIntoCSV.ps1
 . $PSScriptRoot/CustomTypeData.ps1
+. $PSScriptRoot/df.ps1
 . $PSScriptRoot/GenerateStats.ps1
 . $PSScriptRoot/GetDataInfo.ps1
 . $PSScriptRoot/GetDataTypePrecedence.ps1
 . $PSScriptRoot/GetDateRange.ps1
+. $PSScriptRoot/GetDescriptiveStats.ps1
 . $PSScriptRoot/GetPropertyName.ps1
 . $PSScriptRoot/GetPropertyStats.ps1
 . $PSScriptRoot/GroupByAndMeasure.ps1
@@ -19,6 +21,7 @@
 . $PSScriptRoot/NewLookupTable.ps1
 . $PSScriptRoot/ReadCsv.ps1
 . $PSScriptRoot/ScanProperties.ps1
+. $PSScriptRoot/GetDateDifference.ps1
 
 filter ConvertTo-Property {
     $i = $_

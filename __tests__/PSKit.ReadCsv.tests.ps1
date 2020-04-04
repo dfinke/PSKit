@@ -69,4 +69,28 @@ East`tavocado1`t62
 
         $actual.Count | Should -Be 10
     }
+
+    It "Should Create and Indexed Column" {
+        $data = @"
+Region,ItemName,TotalSold
+South,orange,31
+West,melon,91
+South,pear,40
+North,drill,43
+South,orange,77
+South,peach,67
+West,screws,48
+North,avocado,52
+North,peach,63
+East,avocado1,62
+"@
+        $actual = Read-Csv -target $data -IndexColumn Region
+
+        $actual.keys.count | Should -Be 4
+
+        $actual.East.Count | Should -Be 1
+        $actual.West.Count | Should -Be 2
+        $actual.North.Count | Should -Be 3
+        $actual.South.Count | Should -Be 4
+    }
 }

@@ -12,7 +12,7 @@ NY,6,9
 NJ,47,53
 FL,69,77
 "@
-        $actual = New-Dimension -targetData $data -columnPattern '3/\d{1}.*'  -dimension state -measureName date
+        $actual = New-Dimension -targetData $data -columnPattern '3/\d{1}.*' -dimension state -measureName date
 
         $names = $actual[0].psobject.properties.name
 
@@ -33,4 +33,22 @@ FL,69,77
         $actual[1].NJ | Should -BeExactly 53
         $actual[1].FL | Should -BeExactly 77
     }
+
+    # It "Should create a new dataset and create a dimension on the fly" {
+    #     $data = [ordered]@{
+    #         'name'     = 'Alice', 'Bob'
+    #         'score'    = 9.5, 8
+    #         'employed' = $False, $True
+    #         'kids'     = 0, 0
+    #     }
+
+    #     #$actual = df $datas
+
+    #     $actual = New-Dimension -targetData (df $data)
+
+    #     #$actual.Count | Should -Be 2
+
+    #     #$names = $actual[0].psobject.properties.name
+    #     #$names.Count | Should -Be 2
+    # }
 }

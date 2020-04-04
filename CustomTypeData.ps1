@@ -74,18 +74,27 @@ Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName DTyp
     Get-DataType $this
 }
 
-
 Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName Plot -Value {
     param($x = "x", $y = "y", $title = "[Title]")
 
     if (Test-JupyterNotebook) {
         [Graph.Scatter]@{
-            #name = "Average"
-            x = $this.$x
+            x = $this.$x # need the $this.$x $x is the name of a property on the object
             y = $this.$y
         } | New-PlotlyChart -Title $title | Out-Display
     }
     else {
-        Throw "Plot can only work in PowerShell Jupyter Notebooks"
+        $xlfile = [System.IO.Path]::GetTempFileName() -replace "\.tmp", ".xlsx"
+
+        $c = New-ExcelChart -Column 10 -Title $title -XRange $x -YRange $y -ChartType Line -NoLegend
+        Export-Excel -InputObject $result -Path $xlfile -ExcelChartDefinition $c -AutoNameRange -AutoSize -Show
     }
+}
+
+Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName Describe -Value {
+    Get-DescriptiveStats $this
+}
+
+Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName ValueCount -Value {
+    $this | Group-Object -NoElement | Sort-Object count -Descending
 }

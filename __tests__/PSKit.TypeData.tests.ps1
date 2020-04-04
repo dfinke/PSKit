@@ -32,6 +32,7 @@ South,screws,71
         $actual.ContainsKey('GroupAndMeasure') | Should Be $true
         $actual.ContainsKey('SetIndex') | Should Be $true
         $actual.ContainsKey('ScanProperties') | Should Be $true
+        $actual.ContainsKey('Describe') | Should Be $true
     }
 
     It "Should return the correct # of rows from the top" {
