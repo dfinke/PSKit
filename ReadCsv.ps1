@@ -56,11 +56,12 @@ Cost Date     Name
         }
 
         if ($IndexColumn) {
-            $h = @{ }
-            foreach ($record in $data) {
-                $h.($record.$IndexColumn) += @($record)
-            }
-            $h
+            # $h = @{ }
+            # foreach ($record in $data) {
+            #     $h.($record.$IndexColumn) += @($record)
+            # }
+            # $h
+            $data | Group-Object -Property $IndexColumn -AsHashTable
         }
         else {
             $data
