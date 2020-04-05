@@ -8,7 +8,7 @@ Region,ItemName,TotalSold
 South,avocado,5
 East,nail,13
 South,melon,34
-West,drill,5
+West,dril,5
 North,kiwi,48
 North,nail,2
 North,melon,74
@@ -33,6 +33,8 @@ South,screws,71
         $actual.ContainsKey('SetIndex') | Should Be $true
         $actual.ContainsKey('ScanProperties') | Should Be $true
         $actual.ContainsKey('Describe') | Should Be $true
+        $actual.ContainsKey('mean') | Should Be $true
+        $actual.ContainsKey('between') | Should Be $true
     }
 
     It "Should return the correct # of rows from the top" {

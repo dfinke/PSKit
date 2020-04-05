@@ -98,3 +98,13 @@ Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName Desc
 Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName ValueCount -Value {
     $this | Group-Object -NoElement | Sort-Object count -Descending
 }
+
+Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName mean -Value {
+    [MathNet.Numerics.Statistics.Statistics]::Mean([double[]]$this)
+}
+
+Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName between -Value {
+    param($propertyName, $lower, $upper)
+
+    $this.Where({$_.$propertyName -ge $lower -and $_.$propertyName -le $upper})
+}
