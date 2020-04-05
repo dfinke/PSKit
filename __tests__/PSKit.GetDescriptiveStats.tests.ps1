@@ -1,4 +1,4 @@
-Import-Module ../PSKit.psd1 -Force
+Import-Module $PSScriptRoot/../PSKit.psd1 -Force
 
 Describe "PSKit tests - Get DescriptiveStats" {
     BeforeAll {
