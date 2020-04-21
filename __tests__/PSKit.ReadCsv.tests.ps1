@@ -3,7 +3,7 @@ Import-Module $PSScriptRoot/../PSKit.psd1 -Force
 Describe "PSKit tests - Read-Csv" {
 
     BeforeAll {
-        $script:url = 'https://raw.githubusercontent.com/dfinke/ImportExcel/master/Examples/JustCharts/TargetData.csv'
+        $script:url = 'https://raw.githubusercontent.com/dfinke/PSKit/dataframeTranspose/__tests__/TDDData/TargetData.csv'
 
         $script:file = "$PSScriptRoot\..\data\targetData.csv"
 
