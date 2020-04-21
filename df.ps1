@@ -73,6 +73,20 @@ function dfArray {
     }
 }
 
+function ConvertTo-Hashtable {
+    param($targetData)
+
+    $names = $targetData[0].psobject.Properties.name
+
+    $h = [ordered]@{ }
+
+    foreach ($name in $names) {
+        $h.$name = $targetData.$name
+    }
+
+    $h
+}
+
 function df {
     <#
         .Synopsis
@@ -137,8 +151,12 @@ William Gosset                 @{Occupation=Statistician; Born=1876-06-13; Died=
 
     $params = @{ } + $PSBoundParameters
 
+    if ($targetData -is [string]) {
+        $targetData = ConvertTo-Hashtable (ConvertFrom-Json $targetData)
+    }
+    
     switch -Regex ($targetData.GetType().Name) {
-        'Hashtable|OrderedDictionary' { dfDict @params }
-        '\[\]$' { dfArray @params }
+        'Hashtable|OrderedDictionary' { dfDict -targetData $targetData -index $index $columns $columns }
+        '\[\]$' { dfArray -targetData $targetData -index $index $columns $columns }
     }
 }

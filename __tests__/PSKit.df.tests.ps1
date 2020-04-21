@@ -9,6 +9,15 @@ Describe "PSKit tests - df" {
             'Died'       = '1958-04-16', '1937-10-16'
             'Age'        = 37, 61
         }
+  
+        $script:json = @"
+        {
+            'Occupation': ['Chemist', 'Statistician'],
+            'Born': ['1920-07-25', '1876-06-13'],
+            'Died': ['1958-04-16', '1937-10-16'],
+            'Age': [37,61]
+        }
+"@
     }
 
     It "Should process a hashtable" {
@@ -207,4 +216,48 @@ Describe "PSKit tests - df" {
         $actual.'3'.b | Should -Be 8
         $actual.'3'.c | Should -Be 9
     }
+
+    It "Json should translate to two rows" {
+        $actual = df $json
+
+        $actual.Count | Should -Be 2
+    }
+
+    It "Json should translate to four properties" {
+        $actual = df $json
+        
+        $names = $actual[0].psobject.properties.name
+
+        $names.Count | Should -Be 4
+    }
+
+    It "Json should translate to these propterty names" {
+        $actual = df $json
+        
+        $names = $actual[0].psobject.properties.name
+
+        $names[0] | Should -BeExactly "Occupation"
+        $names[1] | Should -BeExactly "Born"
+        $names[2] | Should -BeExactly "Died"
+        $names[3] | Should -BeExactly "Age"
+    }
+
+    It "Json should have this first record" {
+        $actual = df $json        
+
+        $actual[0].Occupation | Should -BeExactly 'Chemist'
+        $actual[0].Born | Should -BeExactly '1920-07-25'
+        $actual[0].Died | Should -BeExactly '1958-04-16'
+        $actual[0].Age | Should -BeExactly 37
+    }
+
+    It "Json should have this second record" {
+        $actual = df $json        
+
+        $actual[1].Occupation | Should -BeExactly 'Statistician'
+        $actual[1].Born | Should -BeExactly '1876-06-13'
+        $actual[1].Died | Should -BeExactly '1937-10-16'
+        $actual[1].Age | Should -BeExactly 61
+    }
+
 }
