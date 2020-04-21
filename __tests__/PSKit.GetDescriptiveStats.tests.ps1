@@ -21,4 +21,8 @@ Describe "PSKit tests - Get DescriptiveStats" {
         $names[6] | Should -BeExactly 'SeventyFivePCT'
         $names[7] | Should -BeExactly 'max'
     }
+
+    It "Should throw if it cannot convert array to double" {
+        { (1, 2, 3, 'a').Describe() } | Should -Throw "Can't convert, need to pass an single dimension array that can be converted to an array of doubles"
+    }
 }

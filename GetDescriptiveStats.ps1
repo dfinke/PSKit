@@ -1,5 +1,10 @@
 function Get-DescriptiveStats {
-    param([double[]]$target)
+    param($target)
+
+    $target = $target -as [double[]]
+    if ($null -eq $target) {
+        throw "Can't convert, need to pass an single dimension array that can be converted to an array of doubles"
+    } 
 
     $mean = [MathNet.Numerics.Statistics.Statistics]::Mean($target)
     $std = [math]::Round([MathNet.Numerics.Statistics.Statistics]::StandardDeviation($target), 2)
