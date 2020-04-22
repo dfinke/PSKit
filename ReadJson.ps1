@@ -1,7 +1,7 @@
 function Read-Json {
     <#
         .Synopsis
-        Read comma-separated values (csv). $target can be a URL, a file, or a string
+        Read Json. $target can be a URL, a file, or a string
     #>
     param(
         [Parameter(ValueFromPipeline)]
