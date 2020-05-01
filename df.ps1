@@ -10,8 +10,12 @@ function dfDict {
             $columns = $targetData.GetEnumerator() | ForEach-Object { $_.key }
         }
 
-        $name = @($columns)[0]
-        $count = $targetData.$name.count
+        $count = [int]::MinValue
+        foreach ($columnName in $columns) {
+            if ($targetData.$columnName.count -gt $count) {
+                $count = $targetData.$columnName.count
+            }
+        }
 
         for ($i = 0; $i -lt $count; $i++) {
             $h = [ordered]@{ }
@@ -152,7 +156,12 @@ William Gosset                 @{Occupation=Statistician; Born=1876-06-13; Died=
     $params = @{ } + $PSBoundParameters
 
     if ($targetData -is [string]) {
-        $targetData = ConvertTo-Hashtable (ConvertFrom-Json $targetData)
+        try {
+            $targetData = ConvertTo-Hashtable (ConvertFrom-Json $targetData)
+        }
+        catch {
+            throw 'invalid json'
+        }
     }
     
     switch -Regex ($targetData.GetType().Name) {
