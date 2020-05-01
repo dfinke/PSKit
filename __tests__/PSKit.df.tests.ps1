@@ -18,6 +18,12 @@ Describe "PSKit tests - df" {
             'Age': [37,61]
         }
 "@
+        $script:oddShapedData = @{
+            'anps' = 'pans', 'snap'
+            'opt'  = @('opt')
+            'opst' = 'pots', 'stop', 'tops'
+            #'a'    = (1..10)
+        }
     }
 
     It "Should process a hashtable" {
@@ -244,6 +250,7 @@ Describe "PSKit tests - df" {
 
     It "Json should have this first record" {
         $actual = df $json        
+        
 
         $actual[0].Occupation | Should -BeExactly 'Chemist'
         $actual[0].Born | Should -BeExactly '1920-07-25'
@@ -259,5 +266,13 @@ Describe "PSKit tests - df" {
         $actual[1].Died | Should -BeExactly '1937-10-16'
         $actual[1].Age | Should -BeExactly 61
     }
+    
+    It "Convert a shape where one column has more entries than the other" {        
+        $actual = df $oddShapedData
+        $actual.Count | Should -Be 3
+    }
 
+    It "Should throw when invalid Json" {
+        { df test } | Should -Throw  'invalid json'
+    }
 }
