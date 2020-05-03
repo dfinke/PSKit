@@ -106,5 +106,34 @@ Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName mean
 Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName between -Value {
     param($propertyName, $lower, $upper)
 
-    $this.Where({$_.$propertyName -ge $lower -and $_.$propertyName -le $upper})
+    $this.Where( { $_.$propertyName -ge $lower -and $_.$propertyName -le $upper })
+}
+
+Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName dropna -Value {
+    param($propertyName)
+
+    $propertyCount = $this[0].psobject.properties.name.count
+    if (!$propertyName -and $propertyCount -eq 1) {
+        $this.Where( { ![string]::IsNullOrEmpty($_) })
+    }
+    elseif ($propertyName) {
+        $this.$propertyName.Where( { ![string]::IsNullOrEmpty($_) })
+    }
+    else {
+        throw "Cannot do dropna without a property name"
+    }
+}
+
+Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName ReplaceAll -Value {
+    param($oldValue, $newValue, [bool]$inplace)
+
+    $names = $this[0].psobject.properties.name
+
+    $this.foreach( {
+            foreach ($name in $names) {
+                if ($_.$name -eq $oldValue) {
+                    $_.$name = $newValue
+                }
+            }        
+        })
 }
