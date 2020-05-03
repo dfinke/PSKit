@@ -8,6 +8,7 @@
 . $PSScriptRoot/GenerateStats.ps1
 . $PSScriptRoot/GetDataInfo.ps1
 . $PSScriptRoot/GetDataTypePrecedence.ps1
+. $PSScriptRoot/GetDateDifference.ps1
 . $PSScriptRoot/GetDateRange.ps1
 . $PSScriptRoot/GetDescriptiveStats.ps1
 . $PSScriptRoot/GetPropertyName.ps1
@@ -15,14 +16,15 @@
 . $PSScriptRoot/GroupByAndMeasure.ps1
 . $PSScriptRoot/InferData.ps1
 . $PSScriptRoot/InvokePivot.ps1
+. $PSScriptRoot/InvokeReplaceAll.ps1
 . $PSScriptRoot/InvokeTranspileSQL.ps1
 . $PSScriptRoot/NewDataframe.ps1
 . $PSScriptRoot/NewDimension.ps1
 . $PSScriptRoot/NewLookupTable.ps1
 . $PSScriptRoot/ReadCsv.ps1
 . $PSScriptRoot/ReadJson.ps1
+. $PSScriptRoot/RemoveNAData.ps1
 . $PSScriptRoot/ScanProperties.ps1
-. $PSScriptRoot/GetDateDifference.ps1
 
 filter ConvertTo-Property {
     $i = $_
