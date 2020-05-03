@@ -9,7 +9,8 @@ a,
 b,2
 d,
 c,1
-"@ }
+"@ 
+    }
 
     It "Function should exist" {
         { $null -eq (Get-Command Remove-NAData -ErrorAction SilentlyContinue) } | Should -Be $true
@@ -22,6 +23,6 @@ c,1
 
     It "Should remove records if p2 is null or empty" {
         $actual = $data | Remove-NAData -propertyName p2
-        # $actual.Count | Should -Be 2
+        $actual.Count | Should -Be 2
     }
 }

@@ -114,10 +114,10 @@ Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName drop
 
     $propertyCount = $this[0].psobject.properties.name.count
     if (!$propertyName -and $propertyCount -eq 1) {
-        $this.Where( { ![string]::IsNullOrEmpty($_) })
+        $this | Remove-NAData -propertyName $propertyName
     }
     elseif ($propertyName) {
-        $this.$propertyName.Where( { ![string]::IsNullOrEmpty($_) })
+        $this.$propertyName | Remove-NAData
     }
     else {
         throw "Cannot do dropna without a property name"
@@ -125,15 +125,7 @@ Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName drop
 }
 
 Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName ReplaceAll -Value {
-    param($oldValue, $newValue, [bool]$inplace)
-
-    $names = $this[0].psobject.properties.name
-
-    $this.foreach( {
-            foreach ($name in $names) {
-                if ($_.$name -eq $oldValue) {
-                    $_.$name = $newValue
-                }
-            }        
-        })
+    param($oldValue, $newValue)
+    
+    $this | Invoke-ReplaceAll $oldValue $newValue
 }
