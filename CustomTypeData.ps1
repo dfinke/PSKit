@@ -6,6 +6,38 @@ Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName stat
     Get-PropertyStats -InputObject $this
 }
 
+# Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName GroupBy -Value {
+#     param(
+#         $GroupBy,
+#         [ValidateSet('Average', 'Maximum', 'Minimum', 'Sum', 'Count')]
+#         $MeasureOperation
+#     )
+    
+#     $targetData = $this
+#     $names = $targetData[0].psobject.Properties.Name | ? { $_ -ne $GroupBy }
+    
+#     $params = @{        
+#         Average = if ($MeasureOperation -eq 'Average') { $true } else { $false }
+#         Maximum = if ($MeasureOperation -eq 'Maximum') { $true } else { $false }
+#         Minimum = if ($MeasureOperation -eq 'Minimum') { $true } else { $false }
+#         Sum     = if ($MeasureOperation -eq 'Sum') { $true } else { $false }
+#     }
+
+#     $i = 0
+#     foreach ($group in ($targetData | Group-Object $GroupBy)) {    
+#         $h = [ordered]@{$GroupBy = $group.name }
+#         foreach ($name in $names) {
+#             if ([int]::TryParse($targetData[0].$name, [ref] $i)) {
+#                 $h.$name = ($group.group.$name | Measure-Object @params).$MeasureOperation 
+#             }
+#             else {
+#                 $h.$name = "NaN"
+#             }
+#         }
+#         [PSCustomObject]$h
+#     }
+# }
+
 Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName GroupAndMeasure -Value {
     param(
         $GroupBy,
