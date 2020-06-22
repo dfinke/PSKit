@@ -275,4 +275,40 @@ Describe "PSKit tests - df" {
     It "Should throw when invalid Json" {
         { df test } | Should -Throw  'invalid json'
     }
+
+    It "Should Merge data" {
+        $data = ("8809 Flair Square", "Toddside", "IL", "37206"),
+        ("9901 Austin Street", "Toddside", "IL", "37206"),
+        ("905 Hogan Quarter", "Franklin", "IL", "37206"),
+        ("72 Savage Lane", "Talkanooga", "TN", "37341")
+        
+        $columns = "Street", "City", "State" , "Zip"
+        
+        $address = df -targetData $data -columns $columns
+
+        $data = ("A", "B+"),
+        ("C+", "C"),
+        ("D-", "A"),
+        ("B-", "F")
+
+        $columns = "Schools", "Cost of Living"
+
+        $result = df -targetData $data -index $address -columns $columns -Merge
+
+        $names = $result[0].psobject.properties.name
+
+        $names[0] | Should -BeExactly "Street"
+        $names[1] | Should -BeExactly "City"
+        $names[2] | Should -BeExactly "State"
+        $names[3] | Should -BeExactly "Zip"
+        $names[4] | Should -BeExactly "Schools"
+        $names[5] | Should -BeExactly "Cost of Living"
+        
+        $result[0].Street | Should -BeExactly "8809 Flair Square"
+        $result[0].City | Should -BeExactly "Toddside"
+        $result[0].State | Should -BeExactly "IL"
+        $result[0].Zip | Should -BeExactly "37206"
+        $result[0].Schools | Should -BeExactly "A"
+        $result[0].'Cost of Living' | Should -BeExactly "B+"
+    }
 }

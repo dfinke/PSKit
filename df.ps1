@@ -91,6 +91,24 @@ function ConvertTo-Hashtable {
     $h
 }
 
+function Merge-Data {
+    param($targetData)
+
+    foreach ($entry in $targetData.GetEnumerator()) {
+
+        $h = [ordered]@{}
+        foreach ($name in $entry.Key.psobject.properties.name) {
+            $h.$name = $entry.Key.$name
+        }
+    
+        foreach ($name in $entry.Value.psobject.properties.name) {
+            $h.$name = $entry.Value.$name
+        }
+
+        [pscustomobject]$h
+    }
+}
+
 function df {
     <#
         .Synopsis
@@ -150,10 +168,11 @@ William Gosset                 @{Occupation=Statistician; Born=1876-06-13; Died=
         [Parameter(Mandatory)]
         $targetData,
         $index,
-        $columns
+        $columns,
+        [Switch]$Merge
     )
 
-    $params = @{ } + $PSBoundParameters
+    # $params = @{ } + $PSBoundParameters
 
     if ($targetData -is [string]) {
         try {
@@ -164,8 +183,15 @@ William Gosset                 @{Occupation=Statistician; Born=1876-06-13; Died=
         }
     }
     
-    switch -Regex ($targetData.GetType().Name) {
+    $result = switch -Regex ($targetData.GetType().Name) {
         'Hashtable|OrderedDictionary' { dfDict -targetData $targetData -index $index $columns $columns }
         '\[\]$' { dfArray -targetData $targetData -index $index $columns $columns }
+    }
+
+    if ($Merge) {
+        Merge-Data $result        
+    }
+    else {
+        $result
     }
 }
