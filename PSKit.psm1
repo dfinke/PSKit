@@ -14,6 +14,7 @@
 . $PSScriptRoot/GetPropertyName.ps1
 . $PSScriptRoot/GetPropertyStats.ps1
 . $PSScriptRoot/GroupByAndMeasure.ps1
+. $PSScriptRoot/GroupPivot.ps1
 . $PSScriptRoot/InferData.ps1
 . $PSScriptRoot/InvokePivot.ps1
 . $PSScriptRoot/InvokeReplaceAll.ps1
