@@ -1,5 +1,22 @@
 function Group-Pivot {
     <#
+        .Example
+$data = ConvertFrom-Csv @"
+foo,bar,baz,zoo
+one,A,1,x
+one,B,2,y
+one,C,3,z
+two,A,4,q
+two,B,5,w
+two,C,6,t
+"@
+
+Group-Pivot -data $data -index foo -columns bar -values baz 
+
+foo A B C
+--- - - -
+one 1 2 3
+two 4 5 6
     #>
     param(
         $data,
