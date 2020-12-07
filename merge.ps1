@@ -45,6 +45,32 @@ function domerge {
     }
 }
 
+$data = ConvertFrom-Csv @"
+Region,Item,TotalSold
+East,screwdriver,35
+West,screws,20
+North,apple,63
+East,kiwi,80
+East,melon,66
+North,lime,74
+West,orange,17
+North,nail,21
+East,banana,8
+South,hammer,68
+"@
+
+$manager = ConvertFrom-Csv @"
+Region,Person
+North,Jane
+South,John
+East,Mary
+West,Bob
+"@
+
+domerge $manager $data region
+#domerge $data $manager Region
+
+return 
 $reviews = Read-Csv https://raw.githubusercontent.com/PacktPublishing/40-Algorithms-Every-Programmer-Should-Know/master/Chapter10/reviews.csv
 $movies = Read-Csv https://raw.githubusercontent.com/PacktPublishing/40-Algorithms-Every-Programmer-Should-Know/master/Chapter10/movies.csv
 domerge $reviews $movies movieid
