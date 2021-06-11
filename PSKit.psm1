@@ -42,50 +42,95 @@ function Script:Test-JupyterNotebook {
 }
 
 # Added here, just for PS Jupyter Notebooks. May move elsewhere.
-if (Test-JupyterNotebook) {
-    function ConvertTo-MarkdownTable {
-        param(
-            [parameter(ValueFromPipeline)]
-            $targetData
-        )
+# if (Test-JupyterNotebook) {
+#     function ConvertTo-MarkdownTable {
+#         param(
+#             [parameter(ValueFromPipeline)]
+#             $targetData
+#         )
 
-        Begin { $allData = @() }
+#         Begin { $allData = @() }
 
-        Process {
-            # $allData += $targetData
-            if ($targetData.gettype().name -match 'HashTable|OrderedDictionary') {
-                $allData = [PSCustomObject]$targetData
-            }
-            else {
-                $allData += $targetData
-            }
+#         Process {
+#             # $allData += $targetData
+#             if ($targetData.gettype().name -match 'HashTable|OrderedDictionary') {
+#                 $allData = [PSCustomObject]$targetData
+#             }
+#             else {
+#                 $allData += $targetData
+#             }
+#         }
+
+#         End {
+#             $names = $allData[0].psobject.Properties.name
+
+#             $result = foreach ($record in $allData) {
+#                 $inner = @()
+#                 foreach ($name in $names) {
+#                     $inner += $record.$name
+#                 }
+#                 '|' + ($inner -join '|') + '|' + "`n"
+#             }
+
+#             $html = (@"
+# $('|' + ($names -join '|') + '|')
+# $(('|---' * ($names.Count - 1)) + '|')
+# $($result)
+# "@ | ConvertFrom-Markdown).html
+
+#             if (Get-Command Get-HtmlContent -ErrorAction SilentlyContinue) {
+#                 $html | Get-HtmlContent | Out-Display -MimeType text/markdown
+#             }
+#             else {
+#                 $html | Out-Display -MimeType text/markdown
+#             }
+#         }
+#     }
+
+#     Set-Alias ctmt ConvertTo-MarkdownTable
+# }
+
+function ConvertTo-MarkdownTable {
+    param(
+        [parameter(ValueFromPipeline)]
+        $targetData
+    )
+
+    Begin { $allData = @() }
+
+    Process {
+        # $allData += $targetData
+        if ($targetData.gettype().name -match 'HashTable|OrderedDictionary') {
+            $allData = [PSCustomObject]$targetData
         }
-
-        End {
-            $names = $allData[0].psobject.Properties.name
-
-            $result = foreach ($record in $allData) {
-                $inner = @()
-                foreach ($name in $names) {
-                    $inner += $record.$name
-                }
-                '|' + ($inner -join '|') + '|' + "`n"
-            }
-
-            $html = (@"
-$('|' + ($names -join '|') + '|')
-$(('|---' * ($names.Count - 1)) + '|')
-$($result)
-"@ | ConvertFrom-Markdown).html
-
-            if (Get-Command Get-HtmlContent -ErrorAction SilentlyContinue) {
-                $html | Get-HtmlContent | Out-Display
-            }
-            else {
-                $html | Out-Display
-            }
+        else {
+            $allData += $targetData
         }
     }
 
-    Set-Alias ctmt ConvertTo-MarkdownTable
+    End {
+        $names = $allData[0].psobject.Properties.name
+
+        $result = foreach ($record in $allData) {
+            $inner = @()
+            foreach ($name in $names) {
+                $inner += $record.$name
+            }
+            '|' + ($inner -join '|') + '|' + "`n"
+        }
+        
+        $markdown = @"
+$('|' + ($names -join '|') + '|')
+$(('|---' * ($names.Count)) + '|')
+$($result)
+"@ 
+
+        if (Get-Command Out-Display -Display -ErrorAction SilentlyContinue) {
+            Out-Display $markdown -MimeType text/markdown
+        } 
+        else {
+            $markdown
+        }
+    }
 }
+Set-Alias ctmt ConvertTo-MarkdownTable

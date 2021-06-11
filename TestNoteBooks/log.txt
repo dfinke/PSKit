@@ -1,0 +1,31 @@
+**********************
+PowerShell transcript start
+Start time: 20210318120720
+Username: DESKTOP-RGI79SG\finke
+RunAs User: DESKTOP-RGI79SG\finke
+Configuration Name: 
+Machine: DESKTOP-RGI79SG (Microsoft Windows NT 10.0.19041.0)
+Host Application: C:\Program Files\PowerShell\7\pwsh.dll
+Process ID: 9140
+PSVersion: 7.1.3
+PSEdition: Core
+GitCommitId: 7.1.3
+OS: Microsoft Windows 10.0.19041
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.10032.0, 6.0.0, 6.1.0, 6.2.0, 7.0.0, 7.1.3
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is ./log.txt
+PS D:\mygit\PSKit\TestNoteBooks> papermill .\PSInteractive.ipynb .\PSInteractiveOut.ipynb 
+  File "c:\python38\lib\site-packages\papermill\execute.py", line 230, in raise_for_execution_errors
+    raise error
+papermill.exceptions.PapermillExecutionError:
+---------------------------------------------------------------------------
+Exception encountered at "In [2]":
+PS D:\mygit\PSKit\TestNoteBooks> Stop-Transcript
+**********************
+PowerShell transcript end
+End time: 20210318120749
+**********************

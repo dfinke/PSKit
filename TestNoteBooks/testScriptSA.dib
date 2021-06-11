@@ -1,0 +1,11 @@
+#!pwsh
+
+. .\testScript.ps1
+
+#!pwsh
+
+add 4 5
+
+#!pwsh
+
+subtract 10 3 

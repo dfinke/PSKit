@@ -1,0 +1,50 @@
+<div id="ec24760c-e210-4b45-b4d7-ac49410399f5" style="width: 900px; height: 500px;"></div>
+
+<script type="text/javascript">
+
+
+
+var renderPlotly = function() {
+
+    var xplotRequire = require.config({context:'xplot-3.0.1',paths:{plotly:'https://cdn.plot.ly/plotly-1.49.2.min'}}) || require;
+
+    xplotRequire(['plotly'], function(Plotly) {
+
+
+
+            var data = [{"type":"bar","x":[10,7,12],"y":["lions","tigers","bears"],"orientation":"h"}];
+
+            var layout = {"title":""};
+
+            Plotly.newPlot('ec24760c-e210-4b45-b4d7-ac49410399f5', data, layout);
+
+        
+
+});
+
+};
+
+if ((typeof(require) !==  typeof(Function)) || (typeof(require.config) !== typeof(Function))) {
+
+    var script = document.createElement("script"); 
+
+    script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js");
+
+    script.onload = function(){
+
+        renderPlotly();
+
+    };
+
+    document.getElementsByTagName("head")[0].appendChild(script); 
+
+}
+
+else {
+
+    renderPlotly();
+
+}
+
+</script>
+
