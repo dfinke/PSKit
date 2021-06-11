@@ -4,7 +4,7 @@
     RootModule        = 'PSKit.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '1.4.0'
+    ModuleVersion     = '1.4.1'
 
     # ID used to uniquely identify this module
     GUID              = '92cd0d76-f455-4049-b129-bede0e1041af'

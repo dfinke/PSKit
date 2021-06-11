@@ -1,0 +1,16 @@
+#!pwsh
+
+1..3
+
+#!pwsh
+
+4..8
+
+#!markdown
+
+# CSharp
+
+#!csharp
+
+var x = 1;
+x

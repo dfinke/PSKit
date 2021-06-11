@@ -40,18 +40,32 @@ Cost Date     Name
     param(
         [Parameter(ValueFromPipeline)]
         $target,
+        $IndexColumn,
         $Delimiter = ","
     )
 
     Process {
         if ([System.Uri]::IsWellFormedUriString($target, [System.UriKind]::Absolute)) {
-            ConvertFrom-Csv (Invoke-RestMethod $target) -Delimiter $Delimiter
+            $data = ConvertFrom-Csv (Invoke-RestMethod $target) -Delimiter $Delimiter
         }
         elseif (Test-Path $target -ErrorAction SilentlyContinue) {
-            Import-Csv $target -Delimiter $Delimiter
+            $data = Import-Csv $target -Delimiter $Delimiter
         }
         else {
-            ConvertFrom-Csv $target -Delimiter $Delimiter
+            $data = ConvertFrom-Csv $target -Delimiter $Delimiter
         }
+
+        if ($IndexColumn) {
+            # $h = @{ }
+            # foreach ($record in $data) {
+            #     $h.($record.$IndexColumn) += @($record)
+            # }
+            # $h
+            $data | Group-Object -Property $IndexColumn -AsHashTable
+        }
+        else {
+            $data
+        }
+
     }
 }

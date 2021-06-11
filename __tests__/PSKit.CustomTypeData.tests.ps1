@@ -8,7 +8,7 @@ Region,ItemName,TotalSold
 South,avocado,5
 East,nail,13
 South,melon,34
-West,drill,5
+West,dril,5
 North,kiwi,48
 North,nail,2
 North,melon,74
@@ -21,7 +21,7 @@ South,screws,71
     It "Should have these data types added" {
         $actual = (Get-TypeData -TypeName Array).Members
 
-
+        $actual.ContainsKey('Plot') | Should Be $true
         $actual.ContainsKey('DTypes') | Should Be $true
         $actual.ContainsKey('columns') | Should Be $true
         $actual.ContainsKey('head') | Should Be $true
@@ -32,6 +32,11 @@ South,screws,71
         $actual.ContainsKey('GroupAndMeasure') | Should Be $true
         $actual.ContainsKey('SetIndex') | Should Be $true
         $actual.ContainsKey('ScanProperties') | Should Be $true
+        $actual.ContainsKey('Describe') | Should Be $true
+        $actual.ContainsKey('mean') | Should Be $true
+        $actual.ContainsKey('between') | Should Be $true
+        $actual.ContainsKey('dropna') | Should Be $true
+        $actual.ContainsKey('ReplaceAll') | Should Be $true
     }
 
     It "Should return the correct # of rows from the top" {
@@ -99,5 +104,54 @@ South,screws,71
         $actual[1].DataType | Should -BeExactly "string"
         $actual[2].ColumnName | Should -BeExactly "TotalSold"
         $actual[2].DataType | Should -BeExactly "int"
+    }
+
+    It "Should work with dropna script method" {
+        $data = ConvertFrom-Csv @"
+p1,p2
+a,
+b,2
+d,
+c,1
+"@
+        $actual = $data.dropna('p2')
+        $actual.Count | Should -Be 2
+
+        $actual = $data.p2.dropna()
+        $actual.Count | Should -Be 2
+
+        #{ $data.dropna()} | Should -Throw "Cannot do dropna without a property name"
+        #{ $data.dropna() } | Should -Throw ""
+    }
+
+    It "Should work with ReplaceAll Script method" {
+        $data = ConvertFrom-Csv @"
+p1,p2
+a,all
+b,test
+c,test1
+d,all
+all,1
+all,all
+"@
+        $actual = $data.ReplaceAll('all', 'total')
+
+        $actual[0].p1 | Should -BeExactly 'a'
+        $actual[0].p2 | Should -BeExactly 'total'
+
+        $actual[1].p1 | Should -BeExactly 'b'
+        $actual[1].p2 | Should -BeExactly 'test'
+        
+        $actual[2].p1 | Should -BeExactly 'c'
+        $actual[2].p2 | Should -BeExactly 'test1'
+        
+        $actual[3].p1 | Should -BeExactly 'd'
+        $actual[3].p2 | Should -BeExactly 'total'
+        
+        $actual[4].p1 | Should -BeExactly 'total'
+        $actual[4].p2 | Should -BeExactly '1'
+ 
+        $actual[5].p1 | Should -BeExactly 'total'
+        $actual[5].p2 | Should -BeExactly 'total'
     }
 }

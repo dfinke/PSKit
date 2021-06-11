@@ -3,7 +3,7 @@ Import-Module $PSScriptRoot/../PSKit.psd1 -Force
 Describe "PSKit tests - Read-Csv" {
 
     BeforeAll {
-        $script:url = 'https://raw.githubusercontent.com/dfinke/ImportExcel/master/Examples/JustCharts/TargetData.csv'
+        $script:url = 'https://raw.githubusercontent.com/dfinke/PSKit/dataframeTranspose/__tests__/TDDData/TargetData.csv'
 
         $script:file = "$PSScriptRoot\..\data\targetData.csv"
 
@@ -68,5 +68,29 @@ East`tavocado1`t62
         $actual = Read-Csv -target $tsvData -Delimiter "`t"
 
         $actual.Count | Should -Be 10
+    }
+
+    It "Should Create and Indexed Column" {
+        $data = @"
+Region,ItemName,TotalSold
+South,orange,31
+West,melon,91
+South,pear,40
+North,drill,43
+South,orange,77
+South,peach,67
+West,screws,48
+North,avocado,52
+North,peach,63
+East,avocado1,62
+"@
+        $actual = Read-Csv -target $data -IndexColumn Region
+
+        $actual.keys.count | Should -Be 4
+
+        $actual.East.Count | Should -Be 1
+        $actual.West.Count | Should -Be 2
+        $actual.North.Count | Should -Be 3
+        $actual.South.Count | Should -Be 4
     }
 }

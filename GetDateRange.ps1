@@ -55,7 +55,8 @@ Index      a         b         c
         [datetime]$end,
         $periods,
         [ValidateSet('D', 'M', 'Y')]
-        $freq = 'D'
+        $freq = 'D',
+        $formatDate = 'yyyy-MM-dd'
     )
 
     switch ($freq) {
@@ -64,7 +65,7 @@ Index      a         b         c
         'Y' { $targetMethod = 'AddYears' }
     }
 
-    $fmt = 'yyyy-MM-dd'
+    $fmt = $formatDate
 
     if ((@{ } + $PSBoundParameters).count -eq 0) {
         $n = 0
