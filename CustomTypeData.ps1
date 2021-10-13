@@ -6,6 +6,38 @@ Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName stat
     Get-PropertyStats -InputObject $this
 }
 
+# Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName GroupBy -Value {
+#     param(
+#         $GroupBy,
+#         [ValidateSet('Average', 'Maximum', 'Minimum', 'Sum', 'Count')]
+#         $MeasureOperation
+#     )
+    
+#     $targetData = $this
+#     $names = $targetData[0].psobject.Properties.Name | ? { $_ -ne $GroupBy }
+    
+#     $params = @{        
+#         Average = if ($MeasureOperation -eq 'Average') { $true } else { $false }
+#         Maximum = if ($MeasureOperation -eq 'Maximum') { $true } else { $false }
+#         Minimum = if ($MeasureOperation -eq 'Minimum') { $true } else { $false }
+#         Sum     = if ($MeasureOperation -eq 'Sum') { $true } else { $false }
+#     }
+
+#     $i = 0
+#     foreach ($group in ($targetData | Group-Object $GroupBy)) {    
+#         $h = [ordered]@{$GroupBy = $group.name }
+#         foreach ($name in $names) {
+#             if ([int]::TryParse($targetData[0].$name, [ref] $i)) {
+#                 $h.$name = ($group.group.$name | Measure-Object @params).$MeasureOperation 
+#             }
+#             else {
+#                 $h.$name = "NaN"
+#             }
+#         }
+#         [PSCustomObject]$h
+#     }
+# }
+
 Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName GroupAndMeasure -Value {
     param(
         $GroupBy,
@@ -72,4 +104,60 @@ Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName Colu
 
 Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName DTypes -Value {
     Get-DataType $this
+}
+
+Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName Plot -Value {
+    param($x = "x", $y = "y", $title = "[Title]")
+
+    if (Test-JupyterNotebook) {
+        [Graph.Scatter]@{
+            x = $this.$x # need the $this.$x $x is the name of a property on the object
+            y = $this.$y
+        } | New-PlotlyChart -Title $title | Out-Display
+    }
+    else {
+        $xlfile = [System.IO.Path]::GetTempFileName() -replace "\.tmp", ".xlsx"
+
+        $c = New-ExcelChart -Column 10 -Title $title -XRange $x -YRange $y -ChartType Line -NoLegend
+        Export-Excel -InputObject $result -Path $xlfile -ExcelChartDefinition $c -AutoNameRange -AutoSize -Show
+    }
+}
+
+Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName Describe -Value {
+    Get-DescriptiveStats $this
+}
+
+Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName ValueCount -Value {
+    $this | Group-Object -NoElement | Sort-Object count -Descending
+}
+
+Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName mean -Value {
+    [MathNet.Numerics.Statistics.Statistics]::Mean([double[]]$this)
+}
+
+Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName between -Value {
+    param($propertyName, $lower, $upper)
+
+    $this.Where( { $_.$propertyName -ge $lower -and $_.$propertyName -le $upper })
+}
+
+Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName dropna -Value {
+    param($propertyName)
+
+    $propertyCount = $this[0].psobject.properties.name.count
+    if (!$propertyName -and $propertyCount -eq 1) {
+        $this | Remove-NAData -propertyName $propertyName
+    }
+    elseif ($propertyName) {
+        $this.$propertyName | Remove-NAData
+    }
+    else {
+        throw "Cannot do dropna without a property name"
+    }
+}
+
+Update-TypeData -Force -TypeName Array -MemberType ScriptMethod -MemberName ReplaceAll -Value {
+    param($oldValue, $newValue)
+    
+    $this | Invoke-ReplaceAll $oldValue $newValue
 }
